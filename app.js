@@ -3,8 +3,10 @@ var path = require('path');
 var { Client } = require('pg'); 
 var nodemailer = require('nodemailer');   
 var exphbs = require('express-handlebars');
+var user;
+var pass;
 
-var app = express();
+const app = express();
 // instantiate client using your DB configurations
 const client = new Client({
   database: 'dad3nvtrvsulfi',
@@ -35,13 +37,6 @@ client.connect()
 app.use(express.static(path.join(__dirname, 'views')));
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars'); 
-
-app.get('/', function(req, res) {
-  res.render('home1', {
-    content:'Joanne C. Patoc',
-    published: false
-  });
-});
 
 app.get('/about', function(req, res) {
   res.render('about');
@@ -187,7 +182,7 @@ app.get('/categories', function(req, res) {
 });
 
 app.get('/category/create', function(req, res) {
-  res.render('create-category');
+  res.render('categories-create');
 }); 
 
 app.post('/category/create', function(req, res) {
@@ -195,7 +190,7 @@ app.post('/category/create', function(req, res) {
   client.query("Insert into products_category (pcname) VALUES ('"+req.body.name+"')",
     (req, data)=> {
   console.log(req, data)
-    res.redirect('/categories')
+    res.redirect('/categories-create')
   });
 });
 
@@ -212,22 +207,22 @@ app.get('/brands', function(req, res) {
 });
 
 app.get('/brands/create', function(req, res) {
-  res.render('brands');
+  res.render('brands-create');
 });
  
 
 app.post('/brands/create', function(req, res) {
   console.log('req.body', req.body);
-  client.query("Insert into brands (brandsname, brandsdescription) VALUES ('"+req.body.name+"','"+req.body.description+"')", 
+  client.query("Insert into brands (id,brandname, description) VALUES ('"+req.body.name+"','"+req.body.description+"')", 
   (req, data)=> {
   console.log(req, data)
-    res.redirect('/brands')
+    res.redirect('/brands-create')
   });
 });
 
 
 
-app.get('/products', function(req, res) {
+/*app.get('/products', function(req, res) {
 
   client.query('SELECT * FROM albums')
   .then((results)=>{
@@ -238,7 +233,7 @@ app.get('/products', function(req, res) {
       console.log('error', err);
       res.send('Error!');
     });
-});
+}); */
 
 
 // POST route from order form
