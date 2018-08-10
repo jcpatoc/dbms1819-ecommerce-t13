@@ -1,0 +1,23 @@
+{
+  "name": "dbmsmodule",
+  "version": "1.0.0",
+  "description": "module123",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "joanne",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3",
+    "express-handlebars": "^3.0.0",
+    "handlebars": "^4.0.11",
+    "node-mailer": "^0.1.1",
+    "pg": "^7.4.3"
+  },
+  "devDependencies": {
+    "bootstrap": "^4.1.3",
+    "nodemon": "^1.18.3"
+  }
+}
