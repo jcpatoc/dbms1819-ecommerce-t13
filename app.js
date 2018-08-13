@@ -52,7 +52,7 @@ app.get('/contact', function(req,res) {
 
 
 
-app.get('/list', function(req, res) {
+app.get('/', function(req, res) {
 
   client.query('SELECT * FROM Products')
    .then((results)=>{
@@ -101,7 +101,7 @@ app.get('/products/update', function(req, res) {
     res.render('update', results); 
       
     })
-    .catch((err)=>{
+    .catch((err)=>{ 
       console.log('error', err);
       res.send('Error!');
     });
@@ -110,7 +110,7 @@ app.get('/products/update', function(req, res) {
 
 app.post('/products/create', function(req, res) {
   console.log('req.body', req.body);
-  client.query("Insert into albums (id, aname, adescription,  aprice, atype, abrand , aphoto) VALUES ('"+req.body.id+"','"+req.body.name+"','"+req.body.description+"','"+req.body.price+"','"+req.body.type+"','"+req.body.brand+"','"+req.body.photo+"')",
+  client.query("Insert into products_create (id, product_name, product_description,  tagline, price, warranty, images, category_ID, products_category, brand_id, brands) VALUES ('"+req.body.id+"','"+req.body.name+"','"+req.body.description+"','"+req.body.price+"','"+req.body.type+"','"+req.body.brand+"','"+req.body.photo+"')",
     (req, data)=> {
   console.log(req, data)
     res.redirect('/products')
@@ -128,17 +128,16 @@ app.get('/products/create', function(req, res) {
     for (var i = 1; i < data.rows.length+1; i++){
       products_category.push(data.rows[i-1]);
     }
-    res.render('create-products',{
+    res.render('products-create',{
       brands: brands,
       category: products_category
       });
     });
   });
 });
-
 app.post('/products/update', function(req, res) {
   console.log('req.body', req.body);
-  client.query("Insert into albums (aname, adescription,  aprice, atype, abrand , aphoto) VALUES ('"+req.body.name+"','"+req.body.description+"','"+req.body.price+"','"+req.body.type+"','"+req.body.brand+"','"+req.body.photo+"')",
+  client.query("Insert into albums (id, product_name, product_description,  tagline, price, warranty, images, category_ID, products_category, brand_id, brands) VALUES ('"+req.body.name+"','"+req.body.description+"','"+req.body.price+"','"+req.body.type+"','"+req.body.brand+"','"+req.body.photo+"')",
     (req, data)=> {
   console.log(req, data)
     res.redirect('/products')
@@ -164,7 +163,7 @@ app.get('/products/update', function(req, res) {
   });
 });
 app.get('/category/create', function(req, res) {
-  res.render('create-category');
+  res.render('categories-create');
 });
 
 
@@ -187,10 +186,10 @@ app.get('/category/create', function(req, res) {
 
 app.post('/category/create', function(req, res) {
   console.log('req.body', req.body);
-  client.query("Insert into products_category (pcname) VALUES ('"+req.body.name+"')",
+  client.query("Insert into products_category (category_name) VALUES ('"+req.body.name+"')",
     (req, data)=> {
   console.log(req, data)
-    res.redirect('/categories-create')
+    res.redirect('/categories')
   });
 });
 
@@ -216,24 +215,9 @@ app.post('/brands/create', function(req, res) {
   client.query("Insert into brands (id,brandname, description) VALUES ('"+req.body.name+"','"+req.body.description+"')", 
   (req, data)=> {
   console.log(req, data)
-    res.redirect('/brands-create')
+    res.redirect('/brands')
   });
 });
-
-
-
-/*app.get('/products', function(req, res) {
-
-  client.query('SELECT * FROM albums')
-  .then((results)=>{
-    res.render('products', results); 
-      
-    })
-    .catch((err)=>{
-      console.log('error', err);
-      res.send('Error!');
-    });
-}); */
 
 
 // POST route from order form

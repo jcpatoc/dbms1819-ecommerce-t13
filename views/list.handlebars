@@ -4,26 +4,20 @@
 		<title>Team 13</title>
 		<meta charset="utf-8">
  		 <meta name="viewport" content="width=device-width, initial-scale=1">
- 		 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ 		
 		
 </head>
 <body>
 	<div class="header">
 		<h1>T13 "Online Shop"</h1> 
 		<div class="topnav">
-  <p><a class="active" href="/list">Home</a></p>
+  <p><a  href="/list">Home</a></p>
   <p><a  href="/about1">About</a></p>
   <p><a  href="/contact">Contact</a></p>
   <p><a href="/brands/create">Brand</a></p>
   <p><a href="/category/create">Category</a></p>
   <p><a href="/products/create">Products</a></p>
 		
-  <div class="search-container">
-    <form action="/action_page.php">
-      <input type="text" placeholder="Search.." name="search">
-      <button type="submit"><i class="fa fa-search"></i></button>
-    </form>
-  </div>
 </div>
 
 	</div>
@@ -36,16 +30,47 @@
 			<div class="description">Description:   {{description}} </div><br>
 			<div class="brand">	Brand:   {{brand}} </div><br>
 			<div class="price">	Price:   P{{price}}.00 </div><br>
-		</div>
 		<img src="{{image}}" width="250" height="250" align="middle"><br>
-		<br>
-
+<br>
 		<div class="button">
 					<p><a class="button" type="submit" href="/order">Order Now</a></p>
 		</div>
+	</div>
 		{{/rows}}
 	</div>
 
+</div>
+
+<div class="dropdown">
+    <button class="dropbtn">Products 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="/brands-create">Brands</a>
+      <a href="/categories">Categories</a>
+      <a href="/products">Products</a>
+    </div>
+  </div> 
+  <div class="dropdown">
+    <button class="dropbtn">Module-3 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="/orders">Orders</a>
+      <a href="/customers">Customers</a>
+    </div>
+  </div> 
+  <div class="dropdown">
+    <button class="dropbtn">Create 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="/products/create">Products</a>
+      <a href="/category/create">Categories</a>
+      <a href="/brands/create">Brands</a>
+    </div>
+  </div>
+  <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
 </div>
 
 </body>

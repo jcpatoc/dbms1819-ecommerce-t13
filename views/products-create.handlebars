@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<title>Team 13</title>
+		<meta charset="utf-8">
+ 		 <meta name="viewport" content="width=device-width, initial-scale=1">
+ 		 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		
+</head>
+<body>
+	<div class="header">
+		<h1>T13 "Online Shop"</h1> 
+		<div class="topnav">
+  <p><a class="active" href="/list">Home</a></p>
+  <p><a  href="/about1">About</a></p>
+  <p><a  href="/contact">Contact</a></p>
+  <p><a href="/brands/create">Brand</a></p>
+  <p><a href="/category/create">Category</a></p>
+  <p><a href="/products/create">Products</a></p>
+</div>
+</div>
+
+
+<div id="text3">
+<fieldset>
+
+	<form action="" method="post">
+		<div id="title1">
+			<p>Add Products:</p> 
+		</div>
+	
+	<table class="inventory">
+		<tr>
+			<td width="130px"><label>Upload Photo</label></td>
+			<td width="250px"><input type="text" name="photo" placeholder="Enter product photo link" required>
+			</td>
+		</tr>
+				
+		<tr>
+			<td width="130px"><label>Product Name:</label></td>
+			<td width="250px"><input type="text" name="name" title="Enter product name" placeholder="Enter product name" required>
+			</td>
+		</tr>
+
+		<tr>
+			<td width="130px"><label>Price:</label></td>
+			<td width="250px"><input type="number" name="price" title="Enter product price" placeholder="Enter product price" required>
+			</td>
+		</tr>
+		
+		<tr>
+			<td width="130px"><label>Category:</label></td>
+			<td> <select name="type">
+				<option value="">Select Category</option>
+					<option value="1"></option>
+					<option value="2">Albums</option>
+			</select> </td>
+		</tr>
+				 
+		<tr>
+			<td width="130px"><label>Brand:</label></td>
+			<td> <select name="brand">
+				<option value="">Select Brand</option>
+					<option value="1">Nintendo</option>
+					<option value="2">Pledis Entertainment</option>
+			</select> </td>
+		</tr>
+				 
+		<tr>
+			<td width="130px"><label for="description">Description</label>
+			<td width="250px"><input type="text" name="description" title="Enter description" placeholder="Enter description" required>
+			</td>
+		</tr>
+	</table>
+
+	<button type="submit">Create Product</button>
+	</form>
+</div>
+
+</fieldset>
+</div>
