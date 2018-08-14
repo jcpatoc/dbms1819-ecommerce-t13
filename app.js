@@ -98,7 +98,7 @@ app.post('/contact', function (req, res) {
 app.get('/products/update', function(req, res) {
   client.query('SELECT * FROM products where id="id"')
   .then((results)=>{
-    res.render('update', results); 
+    res.render('products-update', results); 
       
     })
     .catch((err)=>{ 
@@ -113,7 +113,7 @@ app.post('/products/create', function(req, res) {
   client.query("Insert into products_create (id, product_name, product_description,  tagline, price, warranty, images, category_ID, products_category, brand_id, brands) VALUES ('"+req.body.id+"','"+req.body.name+"','"+req.body.description+"','"+req.body.price+"','"+req.body.type+"','"+req.body.brand+"','"+req.body.photo+"')",
     (req, data)=> {
   console.log(req, data)
-    res.redirect('/products')
+    res.redirect('/products-create')
   });
 });
  
@@ -140,7 +140,7 @@ app.post('/products/update', function(req, res) {
   client.query("Insert into product (id, product_name, product_description,  tagline, price, warranty, images, category_ID, products_category, brand_id, brands) VALUES ('"+req.body.name+"','"+req.body.description+"','"+req.body.price+"','"+req.body.type+"','"+req.body.brand+"','"+req.body.photo+"')",
     (req, data)=> {
   console.log(req, data)
-    res.redirect('/products')
+    res.redirect('/products-update')
   });
 });
  
@@ -155,7 +155,7 @@ app.get('/products/update', function(req, res) {
     for (var i = 1; i < data.rows.length+1; i++){
       products_category.push(data.rows[i-1]);
     }
-    res.render('update',{
+    res.render('products-update',{
       brands: brands,
       category: products_category
       });

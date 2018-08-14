@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<title>Team 13</title>
+		<meta charset="utf-8">
+ 		 <meta name="viewport" content="width=device-width, initial-scale=1">
+ 		 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		
+</head>
+<body>
+	<div class="header">
+		<h1>T13 "Online Shop"</h1> 
+  
+ <div class="menu" id="mymenu">
+  <ul>
+ <br> <li><a href="/">Home</a></li>
+  <li><a href="/about1">About</a></li>
+  <li><a href="/contacts">Contacts</a></li>
+  <li><a>Create</a>
+    <ul>
+  <li><a href="/brands/create">Create Brand</a></li>
+  <li><a href="/category/create">Create Category</a></li>
+  <li><a href="/products/create">Create Product</a></li>
+  </ul>
+    <li><a>Updates</a>
+    <ul>
+  <li><a href="/brands">Brands</a></li>
+  <li><a href="/categories">Categories</a></li>
+  </ul>
+    </ul> </li>
+</div>
+</div>
+</div>
+<br>
+  <div class="form"> 
+
+ <br>
+  <div id="text3">
+  <fieldset>
+    <h1> Create New Product </h1>
+      
+      <form action="" method="POST">
+        <label for="product_name">Product Name &#42;</label>
+        <input id="name" name="product_name" type="text" placeholder="Enter Brand Name" required="required">
+        <br>
+        <label for="product_description">Description &#42;</label>
+        <textarea id="description" name="product_description" placeholder="Enter Brand Description" rows="2" required="required"></textarea>
+         <label for="tagline">Tagline &#42;</label>
+        <input id="name" name="tagline" type="text" placeholder="Enter tagline" required="required">
+        <br>
+         <label for="price">Price &#42;</label>
+        <input id="name" name="price" type="number" placeholder="Enter product price" required="required">
+        <br>
+         <label for="name">Warranty &#42;</label>
+        <input id="name" name="name" type="number" placeholder="Enter warranty in years" required="required">
+        <br>
+        <tr>
+      <td width="130px"><label>Category:</label></td>
+      <td> <select name="category_id">
+        {{#rows}}
+            <option value="1">{{products_category}}</option>
+      </select> </td>
+    </tr>
+        {{/rows}}
+
+
+
+        <button type="submit">Submit Update</button>
+      </form>
+      
+  </fieldset>
+<br>
