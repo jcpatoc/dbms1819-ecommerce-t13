@@ -9,19 +9,24 @@
 </head>
 <body>
 	<div class="header">
-		<h1>T13 "Online Shop"</h1> 
-		<div class="topnav">
-  <p><a  href="/list">Home</a></p>
-  <p><a  href="/about1">About</a></p>
-  <p><a  href="/contact">Contact</a></p>
-  <p><a href="/brands/create">Brand</a></p>
-  <p><a href="/category/create">Category</a></p>
-  <p><a href="/products/create">Products</a></p>
-		
-</div>
-
+		<h1>T13 "Online Shop"</h1>
 	</div>
-
+<div class="navbar">
+  <a href="/">Home</a>
+  <a href="/about1">About</a>
+  <a href="/contact">Contact</a>
+  <div class="dropdown">
+    <button class="dropbtn">Create 
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content">
+      <a href="/brands/create">Create Brand</a>
+      <a href="/category/create">Create Category</a>
+      <a href="/products/create">Create Product</a>
+    </div>
+  </div> 
+</div>
+<br>
 	<div class="pdlist">
 		<br>{{#rows}}
 		<div class="products">
@@ -39,38 +44,6 @@
 		{{/rows}}
 	</div>
 
-</div>
-
-<div class="dropdown">
-    <button class="dropbtn">Products 
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-content">
-      <a href="/brands-create">Brands</a>
-      <a href="/categories">Categories</a>
-      <a href="/products">Products</a>
-    </div>
-  </div> 
-  <div class="dropdown">
-    <button class="dropbtn">Module-3 
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-content">
-      <a href="/orders">Orders</a>
-      <a href="/customers">Customers</a>
-    </div>
-  </div> 
-  <div class="dropdown">
-    <button class="dropbtn">Create 
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-content">
-      <a href="/products/create">Products</a>
-      <a href="/category/create">Categories</a>
-      <a href="/brands/create">Brands</a>
-    </div>
-  </div>
-  <a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="myFunction()">&#9776;</a>
 </div>
 
 </body>

@@ -1,7 +1,7 @@
 var express = require('express');
 var path = require('path');
 var { Client } = require('pg'); 
-var nodemailer = require('nodemailer');   
+const nodemailer = require('nodemailer');   
 var exphbs = require('express-handlebars');
 var user;
 var pass;
@@ -96,7 +96,7 @@ app.post('/contact', function (req, res) {
 });
 
 app.get('/products/update', function(req, res) {
-  client.query('SELECT * FROM albums where id="id"')
+  client.query('SELECT * FROM products where id="id"')
   .then((results)=>{
     res.render('update', results); 
       
@@ -137,7 +137,7 @@ app.get('/products/create', function(req, res) {
 });
 app.post('/products/update', function(req, res) {
   console.log('req.body', req.body);
-  client.query("Insert into albums (id, product_name, product_description,  tagline, price, warranty, images, category_ID, products_category, brand_id, brands) VALUES ('"+req.body.name+"','"+req.body.description+"','"+req.body.price+"','"+req.body.type+"','"+req.body.brand+"','"+req.body.photo+"')",
+  client.query("Insert into products (id, product_name, product_description,  tagline, price, warranty, images, category_ID, products_category, brand_id, brands) VALUES ('"+req.body.name+"','"+req.body.description+"','"+req.body.price+"','"+req.body.type+"','"+req.body.brand+"','"+req.body.photo+"')",
     (req, data)=> {
   console.log(req, data)
     res.redirect('/products')
@@ -225,7 +225,7 @@ app.post('/order', function (req, res) {
   let mailOpts, smtpTrans;
   smtpTrans = nodemailer.createTransport({
     host: 'smtp.gmail.com',
-    port: 465,
+    port: 587,
     secure: true,
     auth: {
       user: 'dbms.team13@gmail.com',
@@ -237,10 +237,11 @@ app.post('/order', function (req, res) {
     to: 'dbms.team13@gmail.com',
     subject: 'New order from T13!',
     text: `${req.body.name} (${req.body.email}) says: Order Details:
-  Name: ${req.body.name}
+  CustomerName: ${req.body.name}
   Phone: ${req.body.phone}
   Email: ${req.body.email}
-  Orders: ${req.body.message}`
+  Orders: ${req.body.message}
+  ProductID: ${req.body.id}`
   };
    smtpTrans.sendMail(mailOpts, function (error, response) {
     if (error) {
