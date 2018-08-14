@@ -10,27 +10,26 @@
 <body>
 	<div class="header">
 		<h1>T13 "Online Shop"</h1> 
-  </div>
-<div class="navbar">
-  <a href="/">Home</a>
-  <a href="/about1">About</a>
-  <a href="/contact">Contact</a>
-  <div class="dropdown">
-    <button class="dropbtn">Create 
-      <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-content">
-      <a href="/brands/create">Create Brand</a>
-      <a href="/category/create">Create Category</a>
-      <a href="/products/create">Create Product</a>
-    </div>
-  </div> 
+  
+  <div class="menu" id="mymenu">
+  <ul>
+ <br> <li><a href="/">Home</a></li>
+  <li><a href="/about1">About</a></li>
+  <li><a href="/contacts">Contacts</a></li>
+  <li><a>Create</a>
+    <ul>
+  <li><a href="/brands/create">Create Brand</a></li>
+  <li><a href="/category/create">Create Category</a></li>
+  <li><a href="/products/create">Create Product</a></li>
+  </ul>
+    </ul> </li>
+</div>
 </div>
 <br>
   <div class="form"> 
 
     <br><h2>Order Form</h2>
-    <form action="/order" method="post" role="form">
+    <form action="" method="post" role="form">
          <div class="form-group">
              <p> <label for="email">Email address:</label> </p>
               <input type="email" class="form-control" name="Email" placeholder="abc123@email.com">

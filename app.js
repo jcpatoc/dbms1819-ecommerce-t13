@@ -137,7 +137,7 @@ app.get('/products/create', function(req, res) {
 });
 app.post('/products/update', function(req, res) {
   console.log('req.body', req.body);
-  client.query("Insert into products (id, product_name, product_description,  tagline, price, warranty, images, category_ID, products_category, brand_id, brands) VALUES ('"+req.body.name+"','"+req.body.description+"','"+req.body.price+"','"+req.body.type+"','"+req.body.brand+"','"+req.body.photo+"')",
+  client.query("Insert into product (id, product_name, product_description,  tagline, price, warranty, images, category_ID, products_category, brand_id, brands) VALUES ('"+req.body.name+"','"+req.body.description+"','"+req.body.price+"','"+req.body.type+"','"+req.body.brand+"','"+req.body.photo+"')",
     (req, data)=> {
   console.log(req, data)
     res.redirect('/products')
@@ -235,7 +235,7 @@ app.post('/order', function (req, res) {
   mailOpts = {
     from: req.body.name + ' &lt;' + req.body.email + '&gt;',
     to: 'dbms.team13@gmail.com',
-    subject: 'New order from T13!',
+    subject: 'New order for T13!',
     text: `${req.body.name} (${req.body.email}) says: Order Details:
   CustomerName: ${req.body.name}
   Phone: ${req.body.phone}
