@@ -1,7 +1,7 @@
 var express = require('express');
 var path = require('path');
 var { Client } = require('pg'); 
-const nodemailer = require('nodemailer');   
+var nodemailer = require('nodemailer');   
 var exphbs = require('express-handlebars');
 var user;
 var pass;
@@ -82,7 +82,7 @@ app.post('/contact', function (req, res) {
   mailOpts = {
     from: req.body.name + ' &lt;' + req.body.email + '&gt;',
     to: 'dbms.team13@gmail.com',
-    subject: 'New message from contact form at team13',
+    subject: 'New message at team13',
     text: `${req.body.name} (${req.body.email}) says: ${req.body.message}`
   };
   smtpTrans.sendMail(mailOpts, function (error, response) {
@@ -225,7 +225,7 @@ app.post('/order', function (req, res) {
   let mailOpts, smtpTrans;
   smtpTrans = nodemailer.createTransport({
     host: 'smtp.gmail.com',
-    port: 587,
+    port: 465,
     secure: true,
     auth: {
       user: 'dbms.team13@gmail.com',
