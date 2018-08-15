@@ -219,6 +219,14 @@ app.post('/brands/create', function(req, res) {
   });
 });
 
+app.post('/orders', function(req, res) {
+  console.log('req.body', req.body);
+  client.query("Insert into orders (id, customer_id, product_id,  order_date, quantity) VALUES ('"+req.body.custiD+"','"+req.body.prodID+"','"+req.body.date+"','"+req.body.quantity+"')",
+    (req, data)=> {
+  console.log(req, data)
+    res.redirect('/orders-list')
+  });
+});
 
 // POST route from order form
 app.post('/order', function (req, res) {
