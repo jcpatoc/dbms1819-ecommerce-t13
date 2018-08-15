@@ -35,24 +35,24 @@
   <div class="form"> 
 
     <br><h2>Order Form</h2>
-    <form action="" method="post" role="form">
+    <form action="/order" method="POST" role="form">
          <div class="form-group">
              <p> <label for="email">Email address:</label> </p>
-              <input type="email" class="form-control" name="Email" placeholder="abc123@email.com">
+              <input type="email" class="form-control" name="email" placeholder="abc123@email.com">
          </div> <br>
          <div class="form-group">
-            <label for="CustomerName">Customer Name: </label>
-            <input type="text" class="form-control" name="CustomerName" placeholder="First and Last name here">
+            <label for="name">Customer Name: </label>
+            <input type="text" class="form-control" name="name" placeholder="First and Last name here">
        </div>
 
         <div class="form-group">
-          <label for="Phone">Phone Number: </label>
-          <input type="number" class="form-control" name="Phone" placeholder="Your phone number">
+          <label for="phone">Phone Number: </label>
+          <input type="number" class="form-control" name="phone" placeholder="Your phone number">
         </div>
 
        <div class="form-group">
-        <label for="exampleFormControlSelect1">Order Quantity: </label>
-        <select class="form-control" name="exampleFormControlSelect1">
+        <label for="quantity">Order Quantity: </label>
+        <select class="form-control" name="quantity">
           <option>1</option>
           <option>2</option>
           <option>3</option>
@@ -62,8 +62,8 @@
       </div>
   
    <div class="form-group">
-            <label for="Productid">Product ID: </label>
-            <input type="text" class="form-control" name="ProductID" placeholder="Enter product ID here">
+            <label for="id">Product ID: </label>
+            <input type="text" class="form-control" name="id" placeholder="Enter product ID here">
        </div>
    <button type="submit">Submit Form</button>
   </div> <br>

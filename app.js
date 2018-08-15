@@ -110,7 +110,7 @@ app.get('/products/update', function(req, res) {
 
 app.post('/products/create', function(req, res) {
   console.log('req.body', req.body);
-  client.query("Insert into products_create (id, product_name, product_description,  tagline, price, warranty, images, category_ID, products_category, brand_id, brands) VALUES ('"+req.body.id+"','"+req.body.name+"','"+req.body.description+"','"+req.body.price+"','"+req.body.type+"','"+req.body.brand+"','"+req.body.photo+"')",
+  client.query("Insert into products_create (id, product_name, product_description,  tagline, price, warranty, images, category_ID, products_category, brand_id, brands) VALUES ('"+req.body.id+"','"+req.body.name+"','"+req.body.description+"','"+req.body.price+"','"+req.body.type+"','"+req.body.brand+"','"+req.body.images+"')",
     (req, data)=> {
   console.log(req, data)
     res.redirect('/products-create')
@@ -137,7 +137,7 @@ app.get('/products/create', function(req, res) {
 });
 app.post('/products/update', function(req, res) {
   console.log('req.body', req.body);
-  client.query("Insert into product (id, product_name, product_description,  tagline, price, warranty, images, category_ID, products_category, brand_id, brands) VALUES ('"+req.body.name+"','"+req.body.description+"','"+req.body.price+"','"+req.body.type+"','"+req.body.brand+"','"+req.body.photo+"')",
+  client.query("Insert into product (id, product_name, product_description,  tagline, price, warranty, images, category_ID, products_category, brand_id, brands) VALUES ('"+req.body.name+"','"+req.body.description+"','"+req.body.tagline+"','"+req.body.price+"','"+req.body.type+"','"+req.body.brand+"','"+req.body.images+"')",
     (req, data)=> {
   console.log(req, data)
     res.redirect('/products-update')
