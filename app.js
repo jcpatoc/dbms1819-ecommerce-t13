@@ -240,7 +240,7 @@ app.post('/order', function (req, res) {
   CustomerName: ${req.body.name}
   Phone: ${req.body.phone}
   Email: ${req.body.email}
-  Orders: ${req.body.message}
+  Orders: ${req.body.quantity}
   ProductID: ${req.body.id}`
   };
    smtpTrans.sendMail(mailOpts, function (error, response) {
