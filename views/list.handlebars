@@ -15,7 +15,12 @@
 	<ul>
  <br> <li><a href="/">Home</a></li>
   <li><a href="/about1">About</a></li>
-  <li><a href="/contacts">Contacts</a></li>
+  <li><a>Module 3</a>
+  	<ul>
+  	<li><a href="/orders/list">Orders</a></li>
+  	<li><a href="/customers/list">Customers</a></li>
+  	</ul>
+  </li>
   <li><a>Create</a>
   	<ul>
   <li><a href="/brands/create">Create Brand</a></li>
@@ -39,6 +44,7 @@
 			<div class="description">Description:   {{description}} </div><br>
 			<div class="brand">	Brand:   {{brand}} </div><br>
 			<div class="price">	Price:   P{{price}}.00 </div><br>
+			<div class="id"> Product ID: {{id}} </div><br>
 		<img src="{{image}}" width="250" height="250" align="middle"><br>
 <br>
 				<p><a class="button1" type="submit" href="/order">Order Now</a></p>

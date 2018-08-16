@@ -46,11 +46,6 @@ app.get('/order', function(req,res) {
   res.render('order');
 });
 
-app.get('/contact', function(req,res) {
-  res.render('faq');
-});
-
-
 
 app.get('/', function(req, res) {
 
@@ -110,7 +105,7 @@ app.get('/products/update', function(req, res) {
 
 app.post('/products/create', function(req, res) {
   console.log('req.body', req.body);
-  client.query("Insert into products_create (id, product_name, product_description,  tagline, price, warranty, images, category_ID, products_category, brand_id, brands) VALUES ('"+req.body.id+"','"+req.body.name+"','"+req.body.description+"','"+req.body.price+"','"+req.body.type+"','"+req.body.brand+"','"+req.body.images+"')",
+  client.query("Insert into products_create (id, product_name, product_description,  tagline, price, warranty, images, category_ID, products_category, brand_id, brands) VALUES ('"+req.body.id+"','"+req.body.name+"','"+req.body.description+"','"+req.body.tagline+"','"+req.body.price+"','"+req.body.warranty+"','"+req.body.images+"','"+req.body.catID+"','"+req.body.prodcat+"','"+req.body.brandid+"','"+req.body.brands+"')",
     (req, data)=> {
   console.log(req, data)
     res.redirect('/products-create')
@@ -224,8 +219,16 @@ app.post('/orders', function(req, res) {
   client.query("Insert into orders (id, customer_id, product_id,  order_date, quantity) VALUES ('"+req.body.custiD+"','"+req.body.prodID+"','"+req.body.date+"','"+req.body.quantity+"')",
     (req, data)=> {
   console.log(req, data)
-    res.redirect('/orders-list')
+    res.redirect('/orders/list')
   });
+});
+
+app.get('/orders/list', function(req, res) {
+  res.render('orders-list');
+});
+
+app.get('/customers/list', function(req, res) {
+  res.render('customers-list');
 });
 
 // POST route from order form

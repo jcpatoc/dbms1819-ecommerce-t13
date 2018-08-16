@@ -15,7 +15,12 @@
 	<ul>
  <br> <li><a href="/">Home</a></li>
   <li><a href="/about1">About</a></li>
-  <li><a href="/contacts">Contacts</a></li>
+  <li><a>Module 3</a>
+  	<ul>
+  	<li><a href="/orders/list">Orders</a></li>
+  	<li><a href="/customers/list">Customers</a></li>
+  	</ul>
+  </li>
   <li><a>Create</a>
   	<ul>
   <li><a href="/brands/create">Create Brand</a></li>
@@ -37,13 +42,13 @@
 
 	<form action="" method="post">
 		<div id="title1">
-			<p>Add Products:</p> 
+			<h4>Add Products:</h4> 
 		</div>
 	
 	<table class="inventory">
 		<tr>
-			<td width="130px"><label>Upload Photo</label></td>
-			<td width="250px"><input type="text" name="photo" placeholder="Enter product photo link" required>
+			<td width="150px"><label>Upload Photo</label></td>
+			<td width="400px"><input type="text" name="images" placeholder="Enter product photo link" required>
 			</td>
 		</tr>
 				
@@ -58,28 +63,33 @@
 			<td width="250px"><input type="number" name="price" title="Enter product price" placeholder="Enter product price" required>
 			</td>
 		</tr>
+
+		<tr>
+			<td width="130px"><label>Warranty: </label></td>
+			<td width="250px"><input type="number" name="warranty" title="Enter warranty in years" placeholder="Enter warranty in years" required>
+			</td>
+		</tr>
 		
 		<tr>
 			<td width="130px"><label>Category:</label></td>
-			<td> <select name="type">
+			<td> <select name="prodcat">
 				<option value="">Select Category</option>
 				{{#rows}}
-					<option value="1">{{category_name}}</option>
-				
+					<option value="">{{category_name}}</option>
+				{{/rows}}
 				
 			</select> </td>
 		</tr>
-				 	{{/rows}}
+				 
 		<tr>
 			<td width="130px"><label>Brand:</label></td>
-			<td> <select name="brand">
+			<td> <select name="brands">
 				<option value="">Select Brand</option>
 					{{#rows}}
-					<option value="1">{{brandname}}</option>
-					
+					<option value="">{{brandname}}</option>
+					{{/rows}}	
 			</select> </td>
-		</tr>
-				{{/rows}}	 
+		</tr>	 
 		<tr>
 			<td width="130px"><label for="description">Description</label>
 			<td width="250px"><input type="text" name="description" title="Enter description" placeholder="Enter description" required>
