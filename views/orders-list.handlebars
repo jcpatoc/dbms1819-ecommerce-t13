@@ -36,7 +36,16 @@
 </div>
 </div>
 <br>
-
+  
+  <div class="orders">
+    {{#rows}}
+      {{id}}
+      {{customer_id}}
+      {{product_id}}
+      {{order_date}}
+      {{quantity}}
+    {{/rows}}
+  </div>
 
 </body>
 </html>

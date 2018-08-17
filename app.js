@@ -197,7 +197,7 @@ app.post('/orders', function(req, res) {
   });
 });
 
-app.post('/orders', function(req, res) {
+app.post('/order', function(req, res) {
   console.log('req.body', req.body);
   client.query("Insert into customers (id, email, first_name,  last_name, street, municipality, province, zipcode) VALUES ('"+req.body.custiD+"','"+req.body.email+"','"+req.body.fname+"','"+req.body.lname+"','"+req.body.street+",'"+req.body.municipality+"','"+req.body.zipcode+"')",
     (req, data)=> {
@@ -255,8 +255,11 @@ app.post('/order', function (req, res) {
     to: 'dbms.team13@gmail.com',
     subject: 'New order for T13!',
     text: `${req.body.name} (${req.body.email}) says: Order Details:
-  CustomerName: ${req.body.name} 
+  CustomerName: ${req.body.fname} ${req.body.lname} 
   Email: ${req.body.email}
+  Street: ${req.body.street}
+  Municipality: ${req.body.municipality}
+  Province: ${req.body.province}
   Orders: ${req.body.quantity}
   ProductID: ${req.body.id}`
   };
@@ -265,7 +268,7 @@ app.post('/order', function (req, res) {
       res.render('contact-failure');
     }
     else {
-      res.render('contact-success');
+      res.render('customers-list');
     }
   });
 });
