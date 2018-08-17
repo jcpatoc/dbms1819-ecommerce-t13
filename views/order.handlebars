@@ -36,60 +36,40 @@
 </div>
 </div>
 <br>
-  <div class="form"> 
+<br>
+  <div id="text3">
+  <fieldset>
+    <h1>Order Form </h1>
+      
+      <form action="/order" method="POST">
 
-    <br><h2>Order Form</h2>
-    <form action="/order" method="POST" role="form">
-         <div class="form-group">
-             <p> <label for="email">Email address:</label> </p>
-              <input type="email" class="form-control" name="email" placeholder="abc123@email.com">
-         </div> <br>
-         <div class="form-group">
-            <label for="fname">First Name: </label>
-            <input type="text" class="form-control" name="name" placeholder="First and Last name here">
-       </div>
-
-         <div class="form-group">
-            <label for="lname">Last Name: </label>
-            <input type="text" class="form-control" name="name" placeholder="First and Last name here">
-       </div>
-
-        <div class="form-group">
-          <label for="phone">Street: </label>
-          <input type="text" class="form-control" name="street" placeholder=" ">
-        </div>
-
-        <div class="form-group">
-          <label for="phone">Municipality: </label>
-          <input type="text" class="form-control" name="municipality" placeholder=" ">
-        </div>
-
-        <div class="form-group">
-          <label for="phone">Province: </label>
-          <input type="text" class="form-control" name="province" placeholder=" ">
-        </div>
-
-        <div class="form-group">
-          <label for="phone">Zipcode: </label>
-          <input type="number" class="form-control" name="zipcode" placeholder=" ">
-        </div>
-
-       <div class="form-group">
-        <label for="quantity">Order Quantity: </label>
-        <select class="form-control" name="quantity">
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-        </select>
-      </div>
-  
-   <div class="form-group">
-            <label for="id">Product ID: </label>
-            <input type="text" class="form-control" name="id" placeholder="Enter product ID here">
-       </div>
-   <button type="submit">Submit Form</button>
-  </div> <br>
-</form>
+        <label for="fname">First Name &#42;</label>
+        <input id="fname" name="fname" type="text" placeholder="Enter First Name" required="required">
+<br>
+        <label for="lname">Last Name &#42;</label>
+        <input id="lname" name="lname" type="text" placeholder="Enter Last name" required="required">
+<br>
+        <label for="email">Email &#42;</label>
+        <input id="email" name="email" type="text" placeholder="123@abc.com" required="required">
+<br>
+        <label for="description">Street &#42;</label>
+        <input id="street" name="street" type="text" placeholder=" " required="required">
+<br>
+        <label for="municipality">Municipality &#42;</label>
+        <input id="municipality" name="municipality" type="text" placeholder=" " required="required">
+<br>    
+        <label for="province">Province &#42;</label>
+        <input id="province" name="province" type="text" placeholder=" " required="required">
+<br>
+         <label for="zipcode">Zipcode &#42;</label>
+        <input id="zipcode" name="zipcode" type="text" placeholder="Enter zipcode" required="required">
+<br>
+        <label for="quantity">Quantity &#42;</label>
+        <input id="quantity" name="quantity" type="text" placeholder="Enter product quantity" required="required">
+<br>
+        <button type="submit">Submit Order</button>
+      </form>
+      
+  </fieldset>
+<br>
   </div>

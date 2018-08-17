@@ -41,7 +41,7 @@
  <br>
   <div id="text3">
   <fieldset>
-    <h1> Create New Product </h1>
+    <h1> Update Product </h1>
       
       <form action="" method="POST">
         <label for="product_name">Product Name &#42;</label>
@@ -50,10 +50,10 @@
         <label for="product_description">Description &#42;</label>
         <textarea id="description" name="product_description" placeholder="Enter Brand Description" rows="2" required="required"></textarea>
          <label for="tagline">Tagline &#42;</label>
-        <input id="name" name="tagline" type="text" placeholder="Enter tagline" required="required">
+        <input id="price" name="tagline" type="text" placeholder="Enter tagline" required="required">
         <br>
          <label for="price">Price &#42;</label>
-        <input id="name" name="price" type="number" placeholder="Enter product price" required="required">
+        <input id="price" name="price" type="number" placeholder="Enter product price" required="required">
         <br>
          <label for="name">Warranty &#42;</label>
         <input id="name" name="name" type="number" placeholder="Enter warranty in years" required="required">
@@ -63,9 +63,19 @@
       <td> <select name="category_id">
         {{#rows}}
             <option value="1">{{products_category}}</option>
+        {{/rows}}
       </select> </td>
     </tr>
-        {{/rows}}
+
+        <tr>
+      <td width="130px"><label>Brand:</label></td>
+      <td> <select name="brands">
+        <option value="">Select Brand</option>
+          {{#rows}}
+          <option value="">{{brandname}}</option>
+          {{/rows}} 
+      </select> </td>
+    </tr> 
 
 
 

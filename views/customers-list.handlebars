@@ -38,17 +38,30 @@
 <br>
 
 <div class="customers">
+  <br>
+    <table align="center" class="table" width="300">
+  <tr>
+    <th>ID </th>
+    <th>Email   </th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Street</th>
+    <th>Municipality</th>
+    <th>Province</th>
+    <th>Zipcode</th>
+  </tr>
+  <tr>
     {{#rows}}
-    {{id}}
-    {{email}}
-    {{first_name}}
-    {{last_name}}
-    {{street}}
-    {{municipality}}
-    {{province}}
-    {{zipcode}}
+    <td>{{id}}</td>
+    <td>{{email}}</td>
+    <td>{{first_name}}</td>
+    <td>{{last_name}}</td>
+    <td>{{street}}</td>
+    <td>{{municipality}}</td>
+    <td>{{province}}</td>
+    <td>{{zipcode}}</td>
     {{/rows}}
-
+</tr>
 </div>
 </body>
 </html>

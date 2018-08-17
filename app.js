@@ -82,7 +82,7 @@ app.post('/products/create', function(req, res) {
   client.query("Insert into products_create (id, product_name, product_description,  tagline, price, warranty, images, category_ID, products_category, brand_id, brands) VALUES ('"+req.body.id+"','"+req.body.name+"','"+req.body.description+"','"+req.body.tagline+"','"+req.body.price+"','"+req.body.warranty+"','"+req.body.images+"','"+req.body.catID+"','"+req.body.prodcat+"','"+req.body.brandid+"','"+req.body.brands+"')",
     (req, data)=> {
   console.log(req, data)
-    res.redirect('/products-create')
+    res.redirect('/')
   });
 });
  
@@ -106,10 +106,10 @@ app.get('/products/create', function(req, res) {
 });
 app.post('/products/update', function(req, res) {
   console.log('req.body', req.body);
-  client.query("Insert into product (id, product_name, product_description,  tagline, price, warranty, images, category_ID, products_category, brand_id, brands) VALUES ('"+req.body.name+"','"+req.body.description+"','"+req.body.tagline+"','"+req.body.price+"','"+req.body.type+"','"+req.body.brand+"','"+req.body.images+"')",
+  client.query("Insert into product (id, product_name, product_description,  tagline, price, warranty, images, category_ID, products_category, brand_id, brands) VALUES ('"+req.body.name+"','"+req.body.description+"','"+req.body.tagline+"',,'"+req.body.price+"','"+req.body.warranty+"','"+req.body.images+"','"+req.body.catID+"','"+req.body.prodID+"','"+req.body.brandID+"','"+req.body.brand+"')",
     (req, data)=> {
   console.log(req, data)
-    res.redirect('/products-update')
+    res.redirect('/')
   });
 });
  
@@ -124,7 +124,7 @@ app.get('/products/update', function(req, res) {
     for (var i = 1; i < data.rows.length+1; i++){
       products_category.push(data.rows[i-1]);
     }
-    res.render('products-update',{
+    res.render('list',{
       brands: brands,
       category: products_category
       });
@@ -239,7 +239,7 @@ app.get('/customers/list', function(req, res) {
     });
 });
 // POST route from order form
-app.post('/order', function (req, res) {
+app.post('/orders', function (req, res) {
   let mailOpts, smtpTrans;
   smtpTrans = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -268,7 +268,7 @@ app.post('/order', function (req, res) {
       res.render('contact-failure');
     }
     else {
-      res.render('customers-list');
+      res.render('contact-success');
     }
   });
 });
