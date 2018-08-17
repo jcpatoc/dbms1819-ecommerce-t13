@@ -62,33 +62,7 @@ app.get('/', function(req, res) {
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: true}));
 
-// POST route from contact form
-app.post('/contact', function (req, res) {
-  let mailOpts, smtpTrans;
-  smtpTrans = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-      user: 'dbms.team13@gmail.com',
-      pass: 'Password1.'
-    }
-  });
-  mailOpts = {
-    from: req.body.name + ' &lt;' + req.body.email + '&gt;',
-    to: 'dbms.team13@gmail.com',
-    subject: 'New message at team13',
-    text: `${req.body.name} (${req.body.email}) says: ${req.body.message}`
-  };
-  smtpTrans.sendMail(mailOpts, function (error, response) {
-    if (error) {
-      res.render('contact-failure');
-    }
-    else {
-      res.render('contact-success');
-    }
-  });
-});
+
 
 app.get('/products/update', function(req, res) {
   client.query('SELECT * FROM products where id="id"')
@@ -223,14 +197,16 @@ app.post('/order', function(req, res) {
   });
 });
 
-app.post('/customers',function(req, res){
+app.post('/order', function(req, res) {
   console.log('req.body', req.body);
-  client.query("Insert into customers (id, email, first_name, last_name, street, municipality, province, zipcode) VALUES ('"+req.body.custID+"','"+req.body.email+"','"+req.body.fname+"','"req.body.lname"','"+req.body.street"','"+req.body.municipality+"','"+req.body.province"','"+req.body.zipcode"')",
+  client.query("Insert into customers (id, email, first_name,  last_name, street, municipality, province, zipcode) VALUES ('"+req.body.custiD+"','"+req.body.email+"','"+req.body.fname+"','"+req.body.lname+"','"+req.body.street+",'"+req.body.municipality+"','"+req.body.zipcode+"')",
     (req, data)=> {
-      console.log(req, data)
-      res.redirect('/customers/list')
-    });
+  console.log(req, data)
+    res.redirect('/customers/list')
+  });
 });
+
+
 app.get('/orders/list', function(req, res) {
   res.render('orders-list');
 });
@@ -240,9 +216,9 @@ app.get('/customers/list', function(req, res) {
 });
 
 app.get('/orders/list', function(req, res) {
-  client.query('SELECT * FROM brands')
+  client.query('SELECT * FROM orders')
   .then((results)=>{
-    res.render('brands', results); 
+    res.render('orders-list', results); 
       
     })
     .catch((err)=>{
@@ -251,6 +227,17 @@ app.get('/orders/list', function(req, res) {
     });
 });
 
+app.get('/customers/list', function(req, res) {
+  client.query('SELECT * FROM customers')
+  .then((results)=>{
+    res.render('customers-list', results); 
+      
+    })
+    .catch((err)=>{
+      console.log('error', err);
+      res.send('Error!');
+    });
+});
 // POST route from order form
 app.post('/order', function (req, res) {
   let mailOpts, smtpTrans;
@@ -268,8 +255,7 @@ app.post('/order', function (req, res) {
     to: 'dbms.team13@gmail.com',
     subject: 'New order for T13!',
     text: `${req.body.name} (${req.body.email}) says: Order Details:
-  CustomerName: ${req.body.fname} ${req.body.lname} 
-  Phone: ${req.body.phone}
+  CustomerName: ${req.body.name} 
   Email: ${req.body.email}
   Orders: ${req.body.quantity}
   ProductID: ${req.body.id}`
