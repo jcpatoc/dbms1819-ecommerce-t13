@@ -214,7 +214,7 @@ app.post('/brands/create', function(req, res) {
   });
 });
 
-app.post('/orders', function(req, res) {
+app.post('/order', function(req, res) {
   console.log('req.body', req.body);
   client.query("Insert into orders (id, customer_id, product_id,  order_date, quantity) VALUES ('"+req.body.custiD+"','"+req.body.prodID+"','"+req.body.date+"','"+req.body.quantity+"')",
     (req, data)=> {
@@ -223,12 +223,32 @@ app.post('/orders', function(req, res) {
   });
 });
 
+app.post('/customers',function(req, res){
+  console.log('req.body', req.body);
+  client.query("Insert into customers (id, email, first_name, last_name, street, municipality, province, zipcode) VALUES ('"+req.body.custID+"','"+req.body.email+"','"+req.body.fname+"','"req.body.lname"','"+req.body.street"','"+req.body.municipality+"','"+req.body.province"','"+req.body.zipcode"')",
+    (req, data)=> {
+      console.log(req, data)
+      res.redirect('/customers/list')
+    });
+});
 app.get('/orders/list', function(req, res) {
   res.render('orders-list');
 });
 
 app.get('/customers/list', function(req, res) {
   res.render('customers-list');
+});
+
+app.get('/orders/list', function(req, res) {
+  client.query('SELECT * FROM brands')
+  .then((results)=>{
+    res.render('brands', results); 
+      
+    })
+    .catch((err)=>{
+      console.log('error', err);
+      res.send('Error!');
+    });
 });
 
 // POST route from order form
@@ -248,7 +268,7 @@ app.post('/order', function (req, res) {
     to: 'dbms.team13@gmail.com',
     subject: 'New order for T13!',
     text: `${req.body.name} (${req.body.email}) says: Order Details:
-  CustomerName: ${req.body.name}
+  CustomerName: ${req.body.fname} ${req.body.lname} 
   Phone: ${req.body.phone}
   Email: ${req.body.email}
   Orders: ${req.body.quantity}
