@@ -188,7 +188,7 @@ app.post('/brands/create', function(req, res) {
   });
 });
 
-app.post('/order', function(req, res) {
+app.post('/orders', function(req, res) {
   console.log('req.body', req.body);
   client.query("Insert into orders (id, customer_id, product_id,  order_date, quantity) VALUES ('"+req.body.custiD+"','"+req.body.prodID+"','"+req.body.date+"','"+req.body.quantity+"')",
     (req, data)=> {
@@ -197,7 +197,7 @@ app.post('/order', function(req, res) {
   });
 });
 
-app.post('/order', function(req, res) {
+app.post('/orders', function(req, res) {
   console.log('req.body', req.body);
   client.query("Insert into customers (id, email, first_name,  last_name, street, municipality, province, zipcode) VALUES ('"+req.body.custiD+"','"+req.body.email+"','"+req.body.fname+"','"+req.body.lname+"','"+req.body.street+",'"+req.body.municipality+"','"+req.body.zipcode+"')",
     (req, data)=> {
