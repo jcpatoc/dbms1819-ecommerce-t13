@@ -18,10 +18,6 @@ const client = new Client({
 }); 
 app.set('port', (process.env.PORT || 4000));
 
-/* var http = require("http");
-setInterval(function() {
-    http.get("http://dbms1819-ecommerce-t13.herokuapp.com/list");
-}, 300000); // every 5 minutes (300000) */
 
 // connect to database
 client.connect()
@@ -38,12 +34,9 @@ app.use(express.static(path.join(__dirname, 'views')));
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars'); 
 
+
 app.get('/about', function(req, res) {
   res.render('about');
-});
-
-app.get('/order', function(req,res) {
-  res.render('order');
 });
 
 
@@ -63,6 +56,149 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: true}));
 
 
+app.post('/order', function(req, res) {
+  console.log('req.body', req.body);
+  client.query("Insert into customers (id, email, first_name,  last_name, street, municipality, province, zipcode) VALUES ('"+req.body.custiD+"','"+req.body.email+"','"+req.body.fname+"','"+req.body.lname+"','"+req.body.street+",'"+req.body.municipality+"','"+req.body.zipcode+"')",
+    (req, data)=> {
+  console.log(req, data)
+    res.redirect('/customers/list')
+  });
+});
+
+app.get('/customers/list', function(req, res) {
+  client.query('SELECT * FROM customers')
+  .then((results)=>{
+    res.render('customers-list', results); 
+      
+    })
+    .catch((err)=>{
+      console.log('error', err);
+      res.send('Error!');
+    });
+});
+
+app.get('/customers/list', function(req, res) {
+  res.render('customers-list');
+});
+
+app.get('/order', function(req,res) {
+  res.render('order');
+});
+
+
+app.post('/category/create', function(req, res) {
+  console.log('req.body', req.body);
+  client.query("Insert into products_category (category_name) VALUES ('"+req.body.name+"')",
+    (req, data)=> {
+  console.log(req, data)
+    res.redirect('/categories')
+  });
+});
+
+
+app.get('/categories', function(req, res) {
+  client.query('SELECT * FROM products_category')
+  .then((results)=>{
+    res.render('categories', results); 
+      
+    })
+    .catch((err)=>{
+      console.log('error', err);
+      res.send('Error!');
+    });
+});
+
+app.get('/category/create', function(req, res) {
+  res.render('categories-create');
+}); 
+
+
+app.post('/brands/create', function(req, res) {
+  console.log('req.body', req.body);
+  client.query("Insert into brands (id,brandname, description) VALUES ('"+req.body.name+"','"+req.body.description+"')", 
+  (req, data)=> {
+  console.log(req, data)
+    res.redirect('/brands')
+  });
+});
+
+app.get('/brands', function(req, res) {
+  client.query('SELECT * FROM brands')
+  .then((results)=>{
+    res.render('brands', results); 
+      
+    })
+    .catch((err)=>{
+      console.log('error', err);
+      res.send('Error!');
+    });
+});
+
+app.get('/brands/create', function(req, res) {
+  res.render('brands-create');
+});
+
+
+app.post('/orders', function(req, res) {
+  console.log('req.body', req.body);
+  client.query("Insert into orders (id, customer_id, product_id,  order_date, quantity) VALUES ('"+req.body.custiD+"','"+req.body.prodID+"','"+req.body.date+"','"+req.body.quantity+"')",
+    (req, data)=> {
+  console.log(req, data)
+    res.redirect('/orders/list')
+  });
+});
+
+app.get('/orders/list', function(req, res) {
+  client.query('SELECT * FROM orders')
+  .then((results)=>{
+    res.render('orders-list', results); 
+      
+    })
+    .catch((err)=>{
+      console.log('error', err);
+      res.send('Error!');
+    });
+});
+
+app.get('/orders/list', function(req, res) {
+  res.render('orders-list');
+});
+
+
+// POST route from order form
+app.post('/orders', function (req, res) {
+  let mailOpts, smtpTrans;
+  smtpTrans = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+      user: 'dbms.team13@gmail.com',
+      pass: 'Password1.'
+    }
+  });
+  mailOpts = {
+    from: req.body.name + ' &lt;' + req.body.email + '&gt;',
+    to: 'dbms.team13@gmail.com',
+    subject: 'New order for T13!',
+    text: `${req.body.name} (${req.body.email}) says: Order Details:
+  CustomerName: ${req.body.fname} ${req.body.lname} 
+  Email: ${req.body.email}
+  Street: ${req.body.street}
+  Municipality: ${req.body.municipality}
+  Province: ${req.body.province}
+  Orders: ${req.body.quantity}
+  ProductID: ${req.body.id}`
+  };
+   smtpTrans.sendMail(mailOpts, function (error, response) {
+    if (error) {
+      res.render('contact-failure');
+    }
+    else {
+      res.render('contact-success');
+    }
+  });
+});
 
 app.get('/products/update', function(req, res) {
   client.query('SELECT * FROM products where id="id"')
@@ -136,143 +272,7 @@ app.get('/category/create', function(req, res) {
 });
 
 
-
-app.get('/categories', function(req, res) {
-  client.query('SELECT * FROM products_category')
-  .then((results)=>{
-    res.render('categories', results); 
-      
-    })
-    .catch((err)=>{
-      console.log('error', err);
-      res.send('Error!');
-    });
-});
-
-app.get('/category/create', function(req, res) {
-  res.render('categories-create');
-}); 
-
-app.post('/category/create', function(req, res) {
-  console.log('req.body', req.body);
-  client.query("Insert into products_category (category_name) VALUES ('"+req.body.name+"')",
-    (req, data)=> {
-  console.log(req, data)
-    res.redirect('/categories')
-  });
-});
-
-app.get('/brands', function(req, res) {
-  client.query('SELECT * FROM brands')
-  .then((results)=>{
-    res.render('brands', results); 
-      
-    })
-    .catch((err)=>{
-      console.log('error', err);
-      res.send('Error!');
-    });
-});
-
-app.get('/brands/create', function(req, res) {
-  res.render('brands-create');
-});
- 
-
-app.post('/brands/create', function(req, res) {
-  console.log('req.body', req.body);
-  client.query("Insert into brands (id,brandname, description) VALUES ('"+req.body.name+"','"+req.body.description+"')", 
-  (req, data)=> {
-  console.log(req, data)
-    res.redirect('/brands')
-  });
-});
-
-app.post('/orders', function(req, res) {
-  console.log('req.body', req.body);
-  client.query("Insert into orders (id, customer_id, product_id,  order_date, quantity) VALUES ('"+req.body.custiD+"','"+req.body.prodID+"','"+req.body.date+"','"+req.body.quantity+"')",
-    (req, data)=> {
-  console.log(req, data)
-    res.redirect('/orders/list')
-  });
-});
-
-app.post('/order', function(req, res) {
-  console.log('req.body', req.body);
-  client.query("Insert into customers (id, email, first_name,  last_name, street, municipality, province, zipcode) VALUES ('"+req.body.custiD+"','"+req.body.email+"','"+req.body.fname+"','"+req.body.lname+"','"+req.body.street+",'"+req.body.municipality+"','"+req.body.zipcode+"')",
-    (req, data)=> {
-  console.log(req, data)
-    res.redirect('/customers/list')
-  });
-});
-
-
-app.get('/orders/list', function(req, res) {
-  res.render('orders-list');
-});
-
-app.get('/customers/list', function(req, res) {
-  res.render('customers-list');
-});
-
-app.get('/orders/list', function(req, res) {
-  client.query('SELECT * FROM orders')
-  .then((results)=>{
-    res.render('orders-list', results); 
-      
-    })
-    .catch((err)=>{
-      console.log('error', err);
-      res.send('Error!');
-    });
-});
-
-app.get('/customers/list', function(req, res) {
-  client.query('SELECT * FROM customers')
-  .then((results)=>{
-    res.render('customers-list', results); 
-      
-    })
-    .catch((err)=>{
-      console.log('error', err);
-      res.send('Error!');
-    });
-});
-// POST route from order form
-app.post('/orders', function (req, res) {
-  let mailOpts, smtpTrans;
-  smtpTrans = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-      user: 'dbms.team13@gmail.com',
-      pass: 'Password1.'
-    }
-  });
-  mailOpts = {
-    from: req.body.name + ' &lt;' + req.body.email + '&gt;',
-    to: 'dbms.team13@gmail.com',
-    subject: 'New order for T13!',
-    text: `${req.body.name} (${req.body.email}) says: Order Details:
-  CustomerName: ${req.body.fname} ${req.body.lname} 
-  Email: ${req.body.email}
-  Street: ${req.body.street}
-  Municipality: ${req.body.municipality}
-  Province: ${req.body.province}
-  Orders: ${req.body.quantity}
-  ProductID: ${req.body.id}`
-  };
-   smtpTrans.sendMail(mailOpts, function (error, response) {
-    if (error) {
-      res.render('contact-failure');
-    }
-    else {
-      res.render('contact-success');
-    }
-  });
-});
-
 app.listen(app.get('port'), function(){
   console.log('Server started on port' +app.get('port'))
 });
+
