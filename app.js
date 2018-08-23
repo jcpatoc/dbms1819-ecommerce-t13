@@ -58,10 +58,10 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.post('/order', function(req, res) {
   console.log('req.body', req.body);
-  client.query("Insert into customers (id, email, first_name,  last_name, street, municipality, province, zipcode) VALUES ('"+req.body.custiD+"','"+req.body.email+"','"+req.body.fname+"','"+req.body.lname+"','"+req.body.street+",'"+req.body.municipality+"','"+req.body.zipcode+"')",
+  client.query("Insert into customers (email, first_name,  last_name, street, municipality, province, zipcode) VALUES ('"+req.body.email+"','"+req.body.first_name+"','"+req.body.last_name+"','"+req.body.street+",'"+req.body.municipality+"','"+req.body.zipcode+"')",
     (req, data)=> {
   console.log(req, data)
-    res.redirect('/customers/list')
+    res.redirect('/order')
   });
 });
 
@@ -115,7 +115,7 @@ app.get('/category/create', function(req, res) {
 
 app.post('/brands/create', function(req, res) {
   console.log('req.body', req.body);
-  client.query("Insert into brands (id,brandname, description) VALUES ('"+req.body.name+"','"+req.body.description+"')", 
+  client.query("Insert into brands (brandname, description) VALUES ('"+req.body.name+"','"+req.body.description+"')", 
   (req, data)=> {
   console.log(req, data)
     res.redirect('/brands')
@@ -182,7 +182,7 @@ app.post('/order', function (req, res) {
     to: 'dbms.team13@gmail.com',
     subject: 'New order for T13!',
     text: `${req.body.name} (${req.body.email}) says: Order Details:
-  CustomerName: ${req.body.fname} ${req.body.lname} 
+  CustomerName: ${req.body.first_name} ${req.body.last_name} 
   Email: ${req.body.email}
   Orders: ${req.body.quantity}
   ProductID: ${req.body.id}`
@@ -212,7 +212,7 @@ app.get('/products/update', function(req, res) {
 
 app.post('/products/create', function(req, res) {
   console.log('req.body', req.body);
-  client.query("Insert into products_create (id, product_name, product_description,  tagline, price, warranty, images, category_ID, products_category, brand_id, brands) VALUES ('"+req.body.id+"','"+req.body.name+"','"+req.body.description+"','"+req.body.tagline+"','"+req.body.price+"','"+req.body.warranty+"','"+req.body.images+"','"+req.body.catID+"','"+req.body.prodcat+"','"+req.body.brandid+"','"+req.body.brands+"')",
+  client.query("Insert into products_create (product_name, product_description,  tagline, price, warranty, images, category_id,, brand_id) VALUES ('"+req.body.id+"','"+req.body.name+"','"+req.body.description+"','"+req.body.tagline+"','"+req.body.price+"','"+req.body.warranty+"','"+req.body.images+"','"+req.body.category_id+"','"+req.body.brand_id+"')",
     (req, data)=> {
   console.log(req, data)
     res.redirect('/')
@@ -223,7 +223,7 @@ app.get('/products/create', function(req, res) {
   client.query('SELECT * FROM brands',(req, data)=>{
     var brands = [];
     for (var i = 1; i < data.rows.length+1; i++){
-      brands.push(data.rows[i-1]);
+      brands.push(data.rows[i-1]);  
     }
   client.query('SELECT * FROM products_category',(req, data)=>{
     var products_category = [];
@@ -239,7 +239,7 @@ app.get('/products/create', function(req, res) {
 });
 app.post('/products/update', function(req, res) {
   console.log('req.body', req.body);
-  client.query("Insert into product (id, product_name, product_description,  tagline, price, warranty, images, category_ID, products_category, brand_id, brands) VALUES ('"+req.body.name+"','"+req.body.description+"','"+req.body.tagline+"',,'"+req.body.price+"','"+req.body.warranty+"','"+req.body.images+"','"+req.body.catID+"','"+req.body.prodID+"','"+req.body.brandID+"','"+req.body.brand+"')",
+  client.query("Insert into product (product_name, product_description,  tagline, price, warranty, images, category_id, brand_id) VALUES ('"+req.body.product_name+"','"+req.body.product_description+"','"+req.body.tagline+"',,'"+req.body.price+"','"+req.body.warranty+"','"+req.body.images+"','"+req.body.category_id+"','"+req.body.brand_id+"')",
     (req, data)=> {
   console.log(req, data)
     res.redirect('/')
