@@ -166,7 +166,7 @@ app.get('/orders/list', function(req, res) {
 
 
 // POST route from order form
-app.post('/orders', function (req, res) {
+app.post('/order', function (req, res) {
   let mailOpts, smtpTrans;
   smtpTrans = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -184,9 +184,6 @@ app.post('/orders', function (req, res) {
     text: `${req.body.name} (${req.body.email}) says: Order Details:
   CustomerName: ${req.body.fname} ${req.body.lname} 
   Email: ${req.body.email}
-  Street: ${req.body.street}
-  Municipality: ${req.body.municipality}
-  Province: ${req.body.province}
   Orders: ${req.body.quantity}
   ProductID: ${req.body.id}`
   };
