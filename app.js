@@ -1,4 +1,5 @@
 var express = require('express');
+var bodyParser = require('body-parser');
 var path = require('path');
 var { Client } = require('pg'); 
 var nodemailer = require('nodemailer');   
@@ -52,7 +53,7 @@ app.get('/', function(req, res) {
 
   });
 });
-const bodyParser = require('body-parser');
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 
@@ -61,7 +62,7 @@ app.post('/order', function(req, res) {
   client.query("Insert into customers (email, first_name,  last_name, street, municipality, province, zipcode) VALUES ('"+req.body.email+"','"+req.body.first_name+"','"+req.body.last_name+"','"+req.body.street+",'"+req.body.municipality+"','"+req.body.zipcode+"')",
     (req, data)=> {
   console.log(req, data)
-    res.redirect('/order')
+    res.redirect('/customers/list')
   });
 });
 
