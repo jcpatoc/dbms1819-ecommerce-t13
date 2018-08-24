@@ -1,9 +1,9 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var path = require('path');
-var { Client } = require('pg'); 
-var nodemailer = require('nodemailer');   
-var exphbs = require('express-handlebars');
+const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path');
+const { Client } = require('pg'); 
+const nodemailer = require('nodemailer');   
+const exphbs = require('express-handlebars');
 var user;
 var pass;
 
@@ -29,7 +29,7 @@ client.connect()
     console.log('cannot connect to database!')
   });
 
-/*const app = express();*/
+
 // tell express which folder is a static/public folder
 app.use(express.static(path.join(__dirname, 'views')));
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
@@ -57,9 +57,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 
-app.post('/order', function(req, res) {
+/* app.post('/order', function(req, res) {
   console.log('req.body', req.body);
-  client.query("Insert into customers (email, first_name,  last_name, street, municipality, province, zipcode) VALUES ('"+req.body.email+"','"+req.body.first_name+"','"+req.body.last_name+"','"+req.body.street+",'"+req.body.municipality+"','"+req.body.zipcode+"')",
+  client.query("INSERT INTO customers (email, first_name,  last_name, street, municipality, province, zipcode) VALUES ('"+req.body.email+"','"+req.body.fname+"','"+req.body.lname+"','"+req.body.street+",'"+req.body.municipality+"','"+req.body.province+"','"+req.body.zipcode+"')",
     (req, data)=> {
   console.log(req, data)
     res.redirect('/customers/list')
@@ -80,7 +80,7 @@ app.get('/customers/list', function(req, res) {
 
 app.get('/customers/list', function(req, res) {
   res.render('customers-list');
-});
+}); */
 
 app.get('/order', function(req,res) {
   res.render('order');
@@ -142,7 +142,7 @@ app.get('/brands/create', function(req, res) {
 
 app.post('/orders', function(req, res) {
   console.log('req.body', req.body);
-  client.query("Insert into orders (id, customer_id, product_id,  order_date, quantity) VALUES ('"+req.body.custiD+"','"+req.body.prodID+"','"+req.body.date+"','"+req.body.quantity+"')",
+  client.query("Insert into orders (id, customer_id, product_id,  order_date, quantity) VALUES ('"+req.body.custiD+"','"+req.body.prodID+"','"+req.body.date+"','"+req.body.quantity+"', CURRENT_TIMESTAMP)",
     (req, data)=> {
   console.log(req, data)
     res.redirect('/orders/list')
