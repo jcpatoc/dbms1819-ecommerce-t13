@@ -182,8 +182,8 @@ app.post('/order', function (req, res) {
     from: req.body.name + ' &lt;' + req.body.email + '&gt;',
     to: 'dbms.team13@gmail.com',
     subject: 'New order for T13!',
-    text: `${req.body.name} (${req.body.email}) says: Order Details:
-  CustomerName: ${req.body.fname}.${req.body.lname} 
+    text: `${req.body.fname} ${req.body.lname} (${req.body.email}) says: Order Details:
+  CustomerName: ${req.body.fname} ${req.body.lname} 
   Email: ${req.body.email}
   Orders: ${req.body.quantity}
   ProductID: ${req.body.id}`
