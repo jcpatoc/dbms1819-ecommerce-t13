@@ -56,6 +56,34 @@ app.get('/', function(req, res) {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
+ app.post('/order', function(req, res) {
+  console.log('req.body', req.body);
+  client.query("INSERT INTO customer_list (first_name, last_name, email) VALUES ('"+req.body.fname+"','"+req.body.lname+"','"+req.body.email+"')",
+    (req, data)=> {
+  console.log(req, data)
+    res.redirect('/customers/list')
+  });
+});
+app.get('/customers/list', function(req, res) {
+  client.query('SELECT * FROM customer_list')
+  .then((results)=>{
+    res.render('customers-list', results); 
+      
+    })
+    .catch((err)=>{
+      console.log('error', err);
+      res.send('Error!');
+    });
+});
+
+app.get('/customer/:id', function(req, res) {
+  res.render('customer-id ');
+});
+
+
+app.get('/customers/list', function(req, res) {
+  res.render('customers-list');
+}); 
 
 /* app.post('/order', function(req, res) {
   console.log('req.body', req.body);
@@ -80,8 +108,8 @@ app.get('/customers/list', function(req, res) {
 
 app.get('/customers/list', function(req, res) {
   res.render('customers-list');
-}); */
-
+}); 
+*/
 app.get('/order', function(req,res) {
   res.render('order');
 });
@@ -197,6 +225,43 @@ app.post('/order', function (req, res) {
     }
   });
 });
+
+  mailOpts = {
+    from: 'dbms.team13@gmail.com',
+    to: + req.body.email + '&gt;',
+    subject: 'Order respond from T13!',
+    html: 
+      '<p>Your order has been recieved by the Admin</p>'
+              '<table>' + 
+                '<thead>' +
+                  '<tr>' +
+                    '<th>Customer</th>' +
+                    '<th>Name</th>' +
+                    '<th>Email</th>' +
+                    '<th>Product</th>' +
+                    '<th>Quantity</th>' +
+                  '</tr>' +
+                '<thead>' +
+                '<tbody>' +
+                  '<tr>' +
+                    '<td>' + req.body.fname + '</th>' +
+                    '<td>' + req.body.lname + '</td>' +
+                    '<td>' + req.body.email + '<td>' +
+                    '<td>' + req.body.quantity + '</td>' +
+                    '<td>' + req.body.id + '</td>' +
+                  '</tr>' +
+                '</tbody>' +
+              '</table>' 
+  };
+   smtpTrans.sendMail(mailOpts, function (error, response) {
+    if (error) {
+      res.render('contact-failure');
+    }
+    else {
+      res.render('contact-success');
+    }
+  });
+
 
 app.get('/products/update', function(req, res) {
   client.query('SELECT * FROM products where id="id"')
