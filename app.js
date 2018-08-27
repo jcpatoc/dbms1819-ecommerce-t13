@@ -54,9 +54,9 @@ app.get('/', function(req, res) {
   });
 });
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: false}));
 
- app.post('/order', function(req, res) {
+/* app.post('/order', function(req, res) {
   console.log('req.body', req.body);
   client.query("INSERT INTO customer_list (first_name, last_name, email) VALUES ('"+req.body.fname+"','"+req.body.lname+"','"+req.body.email+"')",
     (req, data)=> {
@@ -74,19 +74,19 @@ app.get('/customers/list', function(req, res) {
       console.log('error', err);
       res.send('Error!');
     });
-});
+}); */
  app.post('/customer/list', function(req, res) {
   console.log('req.body', req.body);
   client.query("INSERT INTO customer_details (street, municipality, province, zipcode) VALUES ('"+req.body.street+"','"+req.body.municipality+"','"+req.body.province+"','"+req.body.zipcode+"')",
     (req, data)=> {
   console.log(req, data)
-    res.redirect('/customers/:id')
+    res.redirect('/customer/:id')
   });
-});
-app.get('/customers/:id', function(req, res) {
+}); 
+app.get('/customer/:id', function(req, res) {
   client.query('SELECT * FROM customer_details')
   .then((results)=>{
-    res.render('customers-id', results); 
+    res.render('customer-id', results); 
       
     })
     .catch((err)=>{
@@ -112,7 +112,7 @@ app.get('/customers/list', function(req, res) {
     res.redirect('/customers/list')
   });
 });
-
+*/
 app.get('/customers/list', function(req, res) {
   client.query('SELECT * FROM customers')
   .then((results)=>{
@@ -128,7 +128,7 @@ app.get('/customers/list', function(req, res) {
 app.get('/customers/list', function(req, res) {
   res.render('customers-list');
 }); 
-*/
+
 app.get('/order', function(req,res) {
   res.render('order');
 });
@@ -294,9 +294,9 @@ app.post('/order', function (req, res) {
   });
   });
   */
-  
+
   app.post('/order', function(req, res) {
-  client.query("INSERT INTO customers (email, first_name,  last_name, street, municipality, province, zipcode) VALUES ('"+req.body.email+"','"+req.body.fname+"','"+req.body.lname+"','"+req.body.street+",'"+req.body.municipality+"','"+req.body.province+"','"+req.body.zipcode+"') ON CONFLICT (email) DO UPDATE SET first_name = ('" + req.body.fname + "'), last_name = ('" + req.body.lname + "'), street = ('"+req.body.street+"'), municipality = ('"+req.body.municipality+"'), province = ('"+req.body.province+"'), zipcode = ('"+req.body.zipcode+"') WHERE customers.email ='"+req.body.email+"';");
+  client.query("INSERT INTO customers (email,first_name,last_name,street,municipality,province,zipcode) VALUES ('"+req.body.email+"','"+req.body.fname+"','"+req.body.lname+"','"+req.body.street+",'"+req.body.municipality+"','"+req.body.province+"','"+req.body.zipcode+"') ON CONFLICT (email) DO UPDATE SET first_name = ('" + req.body.fname + "'), last_name = ('" + req.body.lname + "'), street = ('"+req.body.street+"'), municipality = ('"+req.body.municipality+"'), province = ('"+req.body.province+"'), zipcode = ('"+req.body.zipcode+"') WHERE customers.email ='"+req.body.email+"';");
   console.log(req.body);
 
   client.query("SELECT id FROM customers WHERE email = '" + req.body.email + "';")  
@@ -349,7 +349,7 @@ app.post('/order', function (req, res) {
             return console.log(error);
           }
           console.log('Message %s sent: %s', info.messageId, info.response);
-          res.redirect('/customer/list');
+          res.redirect('/customers/list');
         });
     })
     .catch((err)=>{
