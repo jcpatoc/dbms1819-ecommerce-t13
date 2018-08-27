@@ -226,12 +226,24 @@ app.post('/order', function (req, res) {
   });
 });
 
+app.post('/order', function (req, res) {
+  let mailOpts, smtpTrans;
+  smtpTrans = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+      user: 'dbms.team13@gmail.com',
+      pass: 'Password1.'
+    }
+  });
+
   mailOpts = {
     from: 'dbms.team13@gmail.com',
-    to: + req.body.email + '&gt;',
+    to: req.body.name + ' &lt;' + req.body.email + '&gt;',
     subject: 'Order respond from T13!',
     html: 
-      '<p>Your order has been recieved by the Admin</p>'
+      '<p>Your order has been recieved by the Admin</p>' +
               '<table>' + 
                 '<thead>' +
                   '<tr>' +
@@ -261,7 +273,7 @@ app.post('/order', function (req, res) {
       res.render('contact-success');
     }
   });
-
+  });
 
 app.get('/products/update', function(req, res) {
   client.query('SELECT * FROM products where id="id"')
