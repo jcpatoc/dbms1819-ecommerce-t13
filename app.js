@@ -163,7 +163,7 @@ app.get('/category/create', function(req, res) {
 
 app.post('/brands/create', function(req, res) {
   console.log('req.body', req.body);
-  client.query("Insert into brands (brandname, description) VALUES ('"+req.body.name+"','"+req.body.description+"')", 
+  client.query("Insert into brands (brandname, description) VALUES ('"+req.body.brandname+"','"+req.body.description+"')", 
   (req, data)=> {
   console.log(req, data)
     res.redirect('/brands')
@@ -189,7 +189,7 @@ app.get('/brands/create', function(req, res) {
 
 app.post('/orders', function(req, res) {
   console.log('req.body', req.body);
-  client.query("Insert into orders (id, customer_id, product_id,  order_date, quantity) VALUES ('"+req.body.custiD+"','"+req.body.prodID+"','"+req.body.date+"','"+req.body.quantity+"', CURRENT_TIMESTAMP)",
+  client.query("Insert into orders (id, customer_id, product_id,  order_date, quantity) VALUES ('"+req.body.custID+"','"+req.body.prodID+"','"+req.body.date+"','"+req.body.quantity+"', CURRENT_TIMESTAMP)",
     (req, data)=> {
   console.log(req, data)
     res.redirect('/orders/list')
@@ -214,8 +214,8 @@ app.get('/orders/list', function(req, res) {
 
 
 // POST route from order form
-app.post('/order', function (req, res) {
-  let mailOpts, smtpTrans;
+/*app.post('/order', function (req, res) {
+  let mailOpts1, smtpTrans;
   smtpTrans = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
@@ -225,7 +225,7 @@ app.post('/order', function (req, res) {
       pass: 'Password1.'
     }
   });
-  mailOpts = {
+  mailOpts1 = {
     from: req.body.name + ' &lt;' + req.body.email + '&gt;',
     to: 'dbms.team13@gmail.com',
     subject: 'New order for T13!',
@@ -246,7 +246,7 @@ app.post('/order', function (req, res) {
 });
 
 app.post('/order', function (req, res) {
-  let mailOpts, smtpTrans;
+  let mailOpts2, smtpTrans;
   smtpTrans = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
@@ -257,7 +257,7 @@ app.post('/order', function (req, res) {
     }
   });
 
-  mailOpts = {
+  mailOpts2 = {
     from: 'dbms.team13@gmail.com',
     to: req.body.name + ' &lt;' + req.body.email + '&gt;',
     subject: 'Order respond from T13!',
@@ -293,6 +293,78 @@ app.post('/order', function (req, res) {
     }
   });
   });
+  */
+  
+  app.post('/order', function(req, res) {
+  client.query("INSERT INTO customers (email, first_name,  last_name, street, municipality, province, zipcode) VALUES ('"+req.body.email+"','"+req.body.fname+"','"+req.body.lname+"','"+req.body.street+",'"+req.body.municipality+"','"+req.body.province+"','"+req.body.zipcode+"') ON CONFLICT (email) DO UPDATE SET first_name = ('" + req.body.fname + "'), last_name = ('" + req.body.lname + "'), street = ('"+req.body.street+"'), municipality = ('"+req.body.municipality+"'), province = ('"+req.body.province+"'), zipcode = ('"+req.body.zipcode+"') WHERE customers.email ='"+req.body.email+"';");
+  console.log(req.body);
+
+  client.query("SELECT id FROM customers WHERE email = '" + req.body.email + "';")  
+  .then((results)=>{
+    var id = results.rows[0].id;
+    console.log(id);
+    client.query("INSERT INTO orders (product_id,customer_id,quantity) VALUES (" + req.params.id + ", " + id + ", " + req.body.quantity + ")")
+    
+    .then((results)=>{
+      var maillist = ['dbms.team13@gmail.com', req.body.email];
+      var transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
+            auth: {
+                user: 'dbms.team13@gmail.com', 
+                pass: 'Password1.' 
+            }
+        });
+        const mailOptions = {
+          from: '"Team 13" <dbms.team13@gmail.com>',
+          to: maillist,
+          subject: 'Order Request Information',
+          html: 
+ '<p>Your order has been recieved by the Admin</p>' +
+              '<table>' + 
+                '<thead>' +
+                  '<tr>' +
+                    '<th>Customer</th>' +
+                    '<th>Name</th>' +
+                    '<th>Email</th>' +
+                    '<th>Product</th>' +
+                    '<th>Quantity</th>' +
+                  '</tr>' +
+                '<thead>' +
+                '<tbody>' +
+                  '<tr>' +
+                    '<td>' + req.body.fname + '</th>' +
+                    '<td>' + req.body.lname + '</td>' +
+                    '<td>' + req.body.email + '<td>' +
+                    '<td>' + req.body.quantity + '</td>' +
+                    '<td>' + req.body.id + '</td>' +
+                  '</tr>' +
+                '</tbody>' +
+              '</table>' 
+        };
+
+      transporter.sendMail(mailOptions, (error,info) => {
+          if (error) {
+            return console.log(error);
+          }
+          console.log('Message %s sent: %s', info.messageId, info.response);
+          res.redirect('/customer/list');
+        });
+    })
+    .catch((err)=>{
+      console.log('error',err),
+      res.send('Error!');
+    });
+
+    })
+    .catch((err)=>{
+      console.log('error',err),
+      res.send('Error!');
+    });
+});
+
+
 
 app.get('/products/update', function(req, res) {
   client.query('SELECT * FROM products where id="id"')
