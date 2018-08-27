@@ -56,7 +56,7 @@ app.get('/', function(req, res) {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-/* app.post('/order', function(req, res) {
+app.post('/order', function(req, res) {
   console.log('req.body', req.body);
   client.query("INSERT INTO customer_list (first_name, last_name, email) VALUES ('"+req.body.fname+"','"+req.body.lname+"','"+req.body.email+"')",
     (req, data)=> {
@@ -74,7 +74,7 @@ app.get('/customers/list', function(req, res) {
       console.log('error', err);
       res.send('Error!');
     });
-}); */
+}); 
  app.post('/customer/list', function(req, res) {
   console.log('req.body', req.body);
   client.query("INSERT INTO customer_details (street, municipality, province, zipcode) VALUES ('"+req.body.street+"','"+req.body.municipality+"','"+req.body.province+"','"+req.body.zipcode+"')",
@@ -296,14 +296,14 @@ app.post('/order', function (req, res) {
   */
 
   app.post('/order', function(req, res) {
-  client.query("INSERT INTO customers (email,first_name,last_name,street,municipality,province,zipcode) VALUES ('"+req.body.email+"','"+req.body.fname+"','"+req.body.lname+"','"+req.body.street+",'"+req.body.municipality+"','"+req.body.province+"','"+req.body.zipcode+"') ON CONFLICT (email) DO UPDATE SET first_name = ('" + req.body.fname + "'), last_name = ('" + req.body.lname + "'), street = ('"+req.body.street+"'), municipality = ('"+req.body.municipality+"'), province = ('"+req.body.province+"'), zipcode = ('"+req.body.zipcode+"') WHERE customers.email ='"+req.body.email+"';");
+  client.query("INSERT INTO customer_list (email,first_name,last_name) VALUES ('"+req.body.email+"','"+req.body.fname+"','"+req.body.lname+"') ON CONFLICT (email) DO UPDATE SET first_name = ('" + req.body.fname + "'), last_name = ('" + req.body.lname + "') WHERE customers.email ='"+req.body.email+"';");
   console.log(req.body);
 
   client.query("SELECT id FROM customers WHERE email = '" + req.body.email + "';")  
   .then((results)=>{
     var id = results.rows[0].id;
     console.log(id);
-    client.query("INSERT INTO orders (product_id,customer_id,quantity) VALUES (" + req.params.id + ", " + id + ", " + req.body.quantity + ")")
+    client.query("INSERT INTO orders (product_id,customer_id,quantity,order_date) VALUES (" + req.params.id + ", " + id + ", " + req.body.quantity + "," + req.body.date + ")")
     
     .then((results)=>{
       var maillist = ['dbms.team13@gmail.com', req.body.email];
