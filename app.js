@@ -75,9 +75,28 @@ app.get('/customers/list', function(req, res) {
       res.send('Error!');
     });
 });
+ app.post('/customer/list', function(req, res) {
+  console.log('req.body', req.body);
+  client.query("INSERT INTO customer_details (street, municipality, province, zipcode) VALUES ('"+req.body.street+"','"+req.body.municipality+"','"+req.body.province+"','"+req.body.zipcode+"')",
+    (req, data)=> {
+  console.log(req, data)
+    res.redirect('/customers/:id')
+  });
+});
+app.get('/customers/:id', function(req, res) {
+  client.query('SELECT * FROM customer_details')
+  .then((results)=>{
+    res.render('customers-id', results); 
+      
+    })
+    .catch((err)=>{
+      console.log('error', err);
+      res.send('Error!');
+    });
+});
 
 app.get('/customer/:id', function(req, res) {
-  res.render('customer-id ');
+  res.render('customer-id');
 });
 
 
