@@ -112,7 +112,7 @@ app.get('/customers/list', function(req, res) {
     res.redirect('/customers/list')
   });
 });
-*/
+
 app.get('/customers/list', function(req, res) {
   client.query('SELECT * FROM customers')
   .then((results)=>{
@@ -364,7 +364,19 @@ app.post('/order', function (req, res) {
     });
 });
 
+//customers
+app.get('/customers/list', function(req, res) {
+  client.query('SELECT * FROM customer_list ORDER BY id DESC')
+  .then((result)=>{
+      console.log('results?', result);
+    res.render('customers-list', result);
+  })
+  .catch((err) => {
+    console.log('error',err);
+    res.send('Error!');
+  });
 
+});
 
 app.get('/products/update', function(req, res) {
   client.query('SELECT * FROM products where id="id"')
