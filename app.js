@@ -63,7 +63,7 @@ app.post('/order', function(req, res) {
   console.log(req, data)
     res.redirect('/customers/list')
   });
-});
+}); 
 app.get('/customers/list', function(req, res) {
   client.query('SELECT * FROM customer_list')
   .then((results)=>{
@@ -75,7 +75,7 @@ app.get('/customers/list', function(req, res) {
       res.send('Error!');
     });
 }); 
- app.post('/customer/list', function(req, res) {
+ app.post('/order', function(req, res) {
   console.log('req.body', req.body);
   client.query("INSERT INTO customer_details (street, municipality, province, zipcode) VALUES ('"+req.body.street+"','"+req.body.municipality+"','"+req.body.province+"','"+req.body.zipcode+"')",
     (req, data)=> {
@@ -104,14 +104,14 @@ app.get('/customers/list', function(req, res) {
   res.render('customers-list');
 }); 
 
-/* app.post('/order', function(req, res) {
+ /* app.post('/order', function(req, res) {
   console.log('req.body', req.body);
   client.query("INSERT INTO customers (email, first_name,  last_name, street, municipality, province, zipcode) VALUES ('"+req.body.email+"','"+req.body.fname+"','"+req.body.lname+"','"+req.body.street+",'"+req.body.municipality+"','"+req.body.province+"','"+req.body.zipcode+"')",
     (req, data)=> {
   console.log(req, data)
-    res.redirect('/customers/list')
+    res.redirect('/customers/list') 
   });
-});
+}); 
 
 app.get('/customers/list', function(req, res) {
   client.query('SELECT * FROM customers')
@@ -123,7 +123,7 @@ app.get('/customers/list', function(req, res) {
       console.log('error', err);
       res.send('Error!');
     });
-});
+}); */
 
 app.get('/customers/list', function(req, res) {
   res.render('customers-list');
@@ -187,7 +187,7 @@ app.get('/brands/create', function(req, res) {
 });
 
 
-app.post('/orders', function(req, res) {
+/*app.post('/orders', function(req, res) {
   console.log('req.body', req.body);
   client.query("Insert into orders (id, customer_id, product_id,  order_date, quantity) VALUES ('"+req.body.custID+"','"+req.body.prodID+"','"+req.body.date+"','"+req.body.quantity+"', CURRENT_TIMESTAMP)",
     (req, data)=> {
@@ -206,96 +206,250 @@ app.get('/orders/list', function(req, res) {
       console.log('error', err);
       res.send('Error!');
     });
-});
+}); */
 
 app.get('/orders/list', function(req, res) {
   res.render('orders-list');
 });
 
 
-// POST route from order form
-/*app.post('/order', function (req, res) {
-  let mailOpts1, smtpTrans;
-  smtpTrans = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-      user: 'dbms.team13@gmail.com',
-      pass: 'Password1.'
+app.post('/products/:id/send', function(req, res) {
+  console.log(req.body);
+  var id = req.params.id;
+  var email =req.body.email;
+  var customers_values = [req.body.email,req.body.fname,req.body.lname,req.body.street,req.body.municipality,req.body.province,req.body.zipcode];
+  var orders_values = [req.body.customer_id, req.body.product_id, req.body.order_date, req.body.quantity];
+  const output1 = `
+    <h1>Your Order Request has been received!</h1>
+    <p>Invoice</p>
+    <ul>
+      <li>Customer Name: ${req.body.fname} ${req.body.lname}</li>
+      <li>Email: ${req.body.email}</li>
+      <li>Address: ${req.body.street} ${req.body.municipality} ${req.body.province}</li>
+      <li>Product ID: ${req.body.id}</li>
+      <li>Zipcode: ${req.body.zipcode}</li>
+      <li>Quantity: ${req.body.quantity}</li>
+    </ul>
+    
+  
+  `;
+  const output2 = `
+    <h1>You have a new Order Request!</h1>
+    <p>Invoice</p>
+    <ul>
+      <li>Customer Name: ${req.body.fname} ${req.body.lname}</li>
+      <li>Email: ${req.body.email}</li>
+      <li>Address: ${req.body.street} ${req.body.municipality} ${req.body.province}</li>
+      <li>Product ID: ${req.body.id}</li>
+      <li>Zipcode: ${req.body.zipcode}</li>
+      <li>Quantity: ${req.body.quantity}</li>
+    </ul>
+  `;
+
+  client.query('SELECT email FROM customers', (req,data)=> {
+    var list;
+    var exist = 0;
+    console.log(email);
+    console.log("exists");
+    for (var i = 0; i < data.rows.length; i++) {
+      list = data.rows[i].email;
+      //JSON.stringify(list);
+      console.log(list);
+      if (list==email) {
+        exist=1;
+      }
     }
-  });
-  mailOpts1 = {
-    from: req.body.name + ' &lt;' + req.body.email + '&gt;',
-    to: 'dbms.team13@gmail.com',
-    subject: 'New order for T13!',
-    text: `${req.body.fname} ${req.body.lname} (${req.body.email}) says: Order Details:
-  CustomerName: ${req.body.fname} ${req.body.lname} 
-  Email: ${req.body.email}
-  Orders: ${req.body.quantity}
-  ProductID: ${req.body.id}`
-  };
-   smtpTrans.sendMail(mailOpts, function (error, response) {
-    if (error) {
-      res.render('contact-failure');
+
+    if (exist==1) {
+      console.log("email exists");
+      //'/products/:id'
+      client.query('SELECT id FROM customers WHERE email=$1', [email], (err,data)=> {
+        if (err) {
+          console.log(err.stack)
+        }
+        else {
+          console.log(data.rows);
+          console.log("existing account");
+          orders_values[2] = data.rows[0].id;
+          console.log(orders_values+"<====")
+          client.query('INSERT INTO orders(id, customer_id, product_id,  order_date, quantity) VALUES($1, $2, $3, $4, $5)', orders_values, (req,data)=> {
+            //nodemailer
+              let transporter = nodemailer.createTransport({
+              host: 'smtp.gmail.com',
+              port: 465,
+              secure: true,
+              auth: {
+                user: 'dbms.team13@gmail.com',
+                pass: 'Password1.'
+              }
+              });
+
+            let mailOptions1 = {
+              from: '"Team13" <dbms.team13@gmail.com>',
+              to: email,
+              subject: 'Order Received!',
+              html: output1
+            };
+
+            let mailOptions2 = {
+              from: '"Team13" <dbms.team13@gmail.com>',
+              to: 'dbms.team13@gmail.com',
+              subject: 'New Order from Team13',
+              html: output2
+            };
+
+            transporter.sendMail(mailOptions1, (error, info)=>{
+              if (error) {
+                return console.log(error);
+              }
+              console.log('Message sent: %s', info.messageId);
+              console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+            });
+
+            transporter.sendMail(mailOptions2, (error, info)=>{
+              if (error) {
+                return console.log(error);
+              }
+              console.log('Message sent: %s', info.messageId);
+              console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+            });
+          });
+          res.redirect('/contact-success');  
+        }
+      });
     }
     else {
-      res.render('contact-success');
+      console.log("account do not exist");
+      console.log(customers_values);
+      client.query('INSERT INTO customers(email, first_name, last_name, street, municipality, province, zipcode) VALUES($1, $2, $3, $4, $5, $6, $7)', customers_values, (err,data)=> {
+        if (err) {
+          console.log(err.stack)
+        }
+        else {
+          client.query('SELECT lastval()', (err,data)=> {
+            if (err) {
+              console.log(err.stack)
+            }
+            else {
+              console.log(data.rows);
+              console.log("!");
+              orders_values[2] = data.rows[0].lastval;
+              console.log(orders_values+"<====")
+              client.query('INSERT INTO orders(id, customer_id, product_id,  order_date, quantity) VALUES($1, $2, $3, $4, $5, $6)', orders_values, (req,data)=> {
+                
+                let transporter = nodemailer.createTransport({
+                  host: 'smtp.gmail.com',
+                  port: 465,
+                  secure: true,
+                  auth: {
+                    user: 'dbms.team13@gmail.com',
+                    pass: 'Password1.'
+                  }
+                  });
+
+                let mailOptions1 = {
+              from: '"Team13" <dbms.team13@gmail.com>',
+              to: email,
+              subject: 'Order Received!',
+              html: output1
+            };
+
+            let mailOptions2 = {
+              from: '"Team13" <dbms.team13@gmail.com>',
+              to: 'dbms.team13@gmail.com',
+              subject: 'New Order from Team17',
+              html: output2
+            };
+
+                  transporter.sendMail(mailOptions1, (error, info)=>{
+                      if (error) {
+                          return console.log(error);
+                      }
+                      console.log('Message sent: %s', info.messageId);
+                      console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+                   });
+
+                  transporter.sendMail(mailOptions2, (error, info)=>{
+                      if (error) {
+                          return console.log(error);
+                      }
+                      console.log('Message sent: %s', info.messageId);
+                      console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+                   });
+              });
+              res.redirect('/contact-success'); 
+            }
+          });
+        }
+      });
     }
   });
 });
 
-app.post('/order', function (req, res) {
-  let mailOpts2, smtpTrans;
-  smtpTrans = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
-    auth: {
-      user: 'dbms.team13@gmail.com',
-      pass: 'Password1.'
-    }
-  });
 
-  mailOpts2 = {
-    from: 'dbms.team13@gmail.com',
-    to: req.body.name + ' &lt;' + req.body.email + '&gt;',
-    subject: 'Order respond from T13!',
-    html: 
-      '<p>Your order has been recieved by the Admin</p>' +
-              '<table>' + 
-                '<thead>' +
-                  '<tr>' +
-                    '<th>Customer</th>' +
-                    '<th>Name</th>' +
-                    '<th>Email</th>' +
-                    '<th>Product</th>' +
-                    '<th>Quantity</th>' +
-                  '</tr>' +
-                '<thead>' +
-                '<tbody>' +
-                  '<tr>' +
-                    '<td>' + req.body.fname + '</th>' +
-                    '<td>' + req.body.lname + '</td>' +
-                    '<td>' + req.body.email + '<td>' +
-                    '<td>' + req.body.quantity + '</td>' +
-                    '<td>' + req.body.id + '</td>' +
-                  '</tr>' +
-                '</tbody>' +
-              '</table>' 
-  };
-   smtpTrans.sendMail(mailOpts, function (error, response) {
-    if (error) {
-      res.render('contact-failure');
-    }
-    else {
-      res.render('contact-success');
-    }
+app.get('/products/:id/email-exists', function(req,res) {
+  var id = req.params.id;
+  res.render('email', {
+    message: 'Email already exists!',
+    PID: id
   });
-  });
-  */
+});
 
-  app.post('/order', function(req, res) {
+app.get('/orders', (req,res)=>{
+  client.query('SELECT * FROM orders', (req, data)=>{
+    var list = [];
+    for (var i = 1; i < data.rows.length+1; i++) {
+        list.push(data.rows[i-1]);
+    }
+    res.render('orders',{
+      data: list
+    });
+  });
+});
+app.get('/customers', function(req, res) {
+  client.query('SELECT * FROM customers')
+  .then((results)=>{
+    res.render('customers', results); 
+      
+    })
+    .catch((err)=>{
+      console.log('error', err);
+      res.send('Error!');
+    });
+});
+
+app.get('/customer/:id', (req,res)=>{
+  var id = req.params.id;
+  console.log(id);
+  client.query('SELECT orders.id, orders.customer_id, orders.product_id, orders.purchase_date, orders.quantity, customers.email, customers.first_name, customers.last_name, customers.street,customers.city,customers.number, products.product_name FROM orders INNER JOIN customers ON orders.customer_id = customers.id INNER JOIN products ON orders.product_id = products.id WHERE orders.customer_id = $1', [id], (err, data)=>{
+    if (err) {
+      console.log(err);
+    }
+    else{
+      var list = [];
+      console.log(data.rows);
+      for (var i = 1; i < data.rows.length+1; i++) {
+        list.push(data.rows[i-1]);
+      }
+      data.rows[0];
+      res.render('customer',{
+        data: list,
+        first_name: list[0].first_name,
+        last_name: list[0].last_name,
+        customer_id: list[0].customer_id,
+        email: list[0].email,
+        street: list[0].street,
+        municipality: list[0].municipality,
+        province: list[0].province,
+        zipcode: list[0].zipcode
+
+      });
+    }
+  });
+});
+
+
+ /* app.post('/order', function(req, res) {
   client.query("INSERT INTO customer_list (email,first_name,last_name) VALUES ('"+req.body.email+"','"+req.body.fname+"','"+req.body.lname+"') ON CONFLICT (email) DO UPDATE SET first_name = ('" + req.body.fname + "'), last_name = ('" + req.body.lname + "') WHERE customers.email ='"+req.body.email+"';");
   console.log(req.body);
 
@@ -390,7 +544,7 @@ app.get('/products/update', function(req, res) {
     });
 });
 
-
+*/
 app.post('/products/create', function(req, res) {
   console.log('req.body', req.body);
   client.query("Insert into products_create (product_name, product_description,  tagline, price, warranty, images, category_id,, brand_id) VALUES ('"+req.body.id+"','"+req.body.name+"','"+req.body.description+"','"+req.body.tagline+"','"+req.body.price+"','"+req.body.warranty+"','"+req.body.images+"','"+req.body.category_id+"','"+req.body.brand_id+"')",
