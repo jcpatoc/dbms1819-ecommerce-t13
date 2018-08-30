@@ -213,7 +213,7 @@ app.get('/orders/list', function(req, res) {
 });
 
 
-app.post('/products/:id/send', function(req, res) {
+app.post('/order', function(req, res) {
   console.log(req.body);
   var id = req.params.id;
   var email =req.body.email;
@@ -314,7 +314,7 @@ app.post('/products/:id/send', function(req, res) {
               console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
             });
           });
-          res.redirect('/contact-success');  
+          res.redirect('/customers-list');  
         }
       });
     }
@@ -357,7 +357,7 @@ app.post('/products/:id/send', function(req, res) {
             let mailOptions2 = {
               from: '"Team13" <dbms.team13@gmail.com>',
               to: 'dbms.team13@gmail.com',
-              subject: 'New Order from Team17',
+              subject: 'New Order from Team13',
               html: output2
             };
 
@@ -377,7 +377,7 @@ app.post('/products/:id/send', function(req, res) {
                       console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
                    });
               });
-              res.redirect('/contact-success'); 
+              res.redirect('/customers-list'); 
             }
           });
         }
@@ -395,18 +395,18 @@ app.get('/products/:id/email-exists', function(req,res) {
   });
 });
 
-app.get('/orders', (req,res)=>{
+app.get('/orders-list', (req,res)=>{
   client.query('SELECT * FROM orders', (req, data)=>{
     var list = [];
     for (var i = 1; i < data.rows.length+1; i++) {
         list.push(data.rows[i-1]);
     }
-    res.render('orders',{
+    res.render('orders-list',{
       data: list
     });
   });
 });
-app.get('/customers', function(req, res) {
+app.get('/customers-list', function(req, res) {
   client.query('SELECT * FROM customers')
   .then((results)=>{
     res.render('customers', results); 
@@ -432,7 +432,7 @@ app.get('/customer/:id', (req,res)=>{
         list.push(data.rows[i-1]);
       }
       data.rows[0];
-      res.render('customer',{
+      res.render('customers-list',{
         data: list,
         first_name: list[0].first_name,
         last_name: list[0].last_name,
@@ -448,103 +448,16 @@ app.get('/customer/:id', (req,res)=>{
   });
 });
 
-
- /* app.post('/order', function(req, res) {
-  client.query("INSERT INTO customer_list (email,first_name,last_name) VALUES ('"+req.body.email+"','"+req.body.fname+"','"+req.body.lname+"') ON CONFLICT (email) DO UPDATE SET first_name = ('" + req.body.fname + "'), last_name = ('" + req.body.lname + "') WHERE customers.email ='"+req.body.email+"';");
-  console.log(req.body);
-
-  client.query("SELECT id FROM customers WHERE email = '" + req.body.email + "';")  
-  .then((results)=>{
-    var id = results.rows[0].id;
-    console.log(id);
-    client.query("INSERT INTO orders (product_id,customer_id,quantity,order_date) VALUES (" + req.params.id + ", " + id + ", " + req.body.quantity + "," + req.body.date + ")")
-    
-    .then((results)=>{
-      var maillist = ['dbms.team13@gmail.com', req.body.email];
-      var transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 465,
-            secure: true,
-            auth: {
-                user: 'dbms.team13@gmail.com', 
-                pass: 'Password1.' 
-            }
-        });
-        const mailOptions = {
-          from: '"Team 13" <dbms.team13@gmail.com>',
-          to: maillist,
-          subject: 'Order Request Information',
-          html: 
- '<p>Your order has been recieved by the Admin</p>' +
-              '<table>' + 
-                '<thead>' +
-                  '<tr>' +
-                    '<th>Customer</th>' +
-                    '<th>Name</th>' +
-                    '<th>Email</th>' +
-                    '<th>Product</th>' +
-                    '<th>Quantity</th>' +
-                  '</tr>' +
-                '<thead>' +
-                '<tbody>' +
-                  '<tr>' +
-                    '<td>' + req.body.fname + '</th>' +
-                    '<td>' + req.body.lname + '</td>' +
-                    '<td>' + req.body.email + '<td>' +
-                    '<td>' + req.body.quantity + '</td>' +
-                    '<td>' + req.body.id + '</td>' +
-                  '</tr>' +
-                '</tbody>' +
-              '</table>' 
-        };
-
-      transporter.sendMail(mailOptions, (error,info) => {
-          if (error) {
-            return console.log(error);
-          }
-          console.log('Message %s sent: %s', info.messageId, info.response);
-          res.redirect('/customers/list');
-        });
-    })
-    .catch((err)=>{
-      console.log('error',err),
-      res.send('Error!');
-    });
-
-    })
-    .catch((err)=>{
-      console.log('error',err),
-      res.send('Error!');
-    });
+app.get('/customer/:id', function(req, res) {
+  res.render('customer-id');
 });
 
-//customers
+
 app.get('/customers/list', function(req, res) {
-  client.query('SELECT * FROM customer_list ORDER BY id DESC')
-  .then((result)=>{
-      console.log('results?', result);
-    res.render('customers-list', result);
-  })
-  .catch((err) => {
-    console.log('error',err);
-    res.send('Error!');
-  });
+  res.render('customers-list');
+}); 
 
-});
 
-app.get('/products/update', function(req, res) {
-  client.query('SELECT * FROM products where id="id"')
-  .then((results)=>{
-    res.render('products-update', results); 
-      
-    })
-    .catch((err)=>{ 
-      console.log('error', err);
-      res.send('Error!');
-    });
-});
-
-*/
 app.post('/products/create', function(req, res) {
   console.log('req.body', req.body);
   client.query("Insert into products_create (product_name, product_description,  tagline, price, warranty, images, category_id,, brand_id) VALUES ('"+req.body.id+"','"+req.body.name+"','"+req.body.description+"','"+req.body.tagline+"','"+req.body.price+"','"+req.body.warranty+"','"+req.body.images+"','"+req.body.category_id+"','"+req.body.brand_id+"')",

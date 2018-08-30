@@ -37,16 +37,27 @@
 </div>
 </div>
 <br>
-  
-  <div class="orders">
+   <br>
+    <table align="center" class="table" width="300">
+  <tr>
+    <th>ID </th>
+    <th>Customer ID   </th>
+    <th>Product ID</th>
+    <th>Order Date</th>
+    <th>Quantity<th>
+  </tr>
+  <tr>
     {{#rows}}
-      {{id}}
-      {{customer_id}}
-      {{product_id}}
-      {{order_date}}
-      {{quantity}}
+    <td>{{id}}</td>
+    <td>{{customer_id}}</td>
+    <td>{{product_id}}</td>
+    <td>{{order_date}}</td>
+    <td>{{quantity}}</td>
+    <td>
+    <tr>
     {{/rows}}
-  </div>
+</tr>
+
 
 </body>
 </html>
