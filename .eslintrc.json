@@ -1,3 +1,9 @@
 {
-    "extends": "standard"
+    "extends": "standard",
+    "rules": {
+      "semi":[2,"always"],
+      "camelcase":[0,"no"],
+      "no-path-concat":[0,"nope"],
+	  "eqeqeq": 0
+    }
 }

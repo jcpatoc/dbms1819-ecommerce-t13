@@ -15,11 +15,11 @@
 	<div class="menu" id="mymenu">
 	<ul>
  <br> <li><a href="/">Home</a></li>
-  <li><a href="/about1">About</a></li>
+  <li><a href="/admin/product">Admin</a></li>
   <li><a>Module 3</a>
   	<ul>
   	<li><a href="/orders/list">Orders</a></li>
-  	<li><a href="/customers/list">Customers</a></li>
+  	<li><a href="/customers-list">Customers</a></li>
   	</ul>
   </li>
   <li><a>Create</a>
@@ -40,6 +40,10 @@
   <br>
     <table align="center" class="table" width="300">
   <tr>
+    <th>ID </th>
+    <th>Email   </th>
+    <th>First Name</th>
+    <th>Last Name</th>
     <th>Street<th>
     <th>Municipality<th>
     <th>Province<th>
@@ -49,6 +53,10 @@
   </tr>
   <tr>
     {{#rows}}
+    <td>{{id}}</td>
+    <td>{{email}}</td>
+    <td>{{first_name}}</td>
+    <td>{{last_name}}</td>
     <td>{{street}}</td>
     <td>{{municipality}}</td>
     <td>{{province}}</td>
