@@ -41,17 +41,11 @@
 		<br>{{#rows}}
 		<div class="products">
 			<div class="name">	{{name}} </div><br>
-			<div class="type">	Type:   {{type}} </div><br>
-			<div class="description">Description:   {{description}} </div><br>
-			<div class="brand">	Brand:   {{brand}} </div><br>
 			<div class="price">	Price:   P{{price}}.00 </div><br>
-			<div class="id"> Product ID: {{id}} </div><br>
-		<img src="{{image}}" width="250" height="250" align="middle"><br>
+		<img src="{{image}}" href="/details" width="250" height="250" align="middle"><br>
 <br>
-				<p><a class="button1" type="submit" href="/order">Order Now</a></p>
-	
-				<p><a class="button2" type="submit" href="/products/update">Update Product</a></p>
-					
+				<p><a class="button1" type="submit" href="/details">See Details</a></p>
+
 		
 	</div>
 	{{/rows}}

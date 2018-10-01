@@ -4,9 +4,7 @@ var Customers = {
       SELECT
       customers.first_name,
       customers.last_name
-	 
       FROM customers
-	  
       ORDER BY id ASC
     `;
     client.query(customersListQuery, (req, data) => {

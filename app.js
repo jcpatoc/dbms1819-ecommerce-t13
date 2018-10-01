@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var path = require('path'); var { Client } = require('pg');
 var nodemailer = require('nodemailer');
 var exphbs = require('express-handlebars');
+var moment = require('moment');
 /* var passport = require('passport');
 var Strategy = require('passport-local'); */
 
@@ -45,6 +46,27 @@ app.get('/', function (req, res) {
       res.send('Error!');
     });
 });
+
+app.get('/details', function (req, res) {
+  client.query('SELECT * FROM Products')
+    .then((results) => {
+      res.render('details', results);
+    })
+    .catch((err) => {
+      console.log('error', err);
+      res.send('Error!');
+    });
+});
+
+app.get('/details', function (req, res) {
+  res.render('details');
+});
+
+app.get('/', function (req, res) {
+  console.log(moment().format('LLLL [GMT+8]'));
+  res.render('list');
+});
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -185,11 +207,7 @@ app.get('/brands', function (req, res) {
     }
   });
 });
-
-app.get('/brands/create', function (req, res) {
-  res.render('brands-create');
-}); */
-
+*/
 /* app.post('/orders', function(req, res) {
   console.log('req.body', req.body);
   client.query("Insert into orders (id, customer_id, product_id,  order_date, quantity) VALUES ('"+req.body.custID+"','"+req.body.prodID+"','"+req.body.date+"','"+req.body.quantity+"', CURRENT_TIMESTAMP)",
@@ -210,6 +228,9 @@ app.get('/orders/list', function(req, res) {
       res.send('Error!');
     });
 }); */
+app.get('/brands/create', function (req, res) {
+  res.render('brands-create');
+});
 
 app.get('/orders/list', function (req, res) {
   res.render('orders-list');
