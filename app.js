@@ -88,7 +88,7 @@ app.get('/categories', function (req, res) {
 
 app.post('/category/create', function (req, res) {
   console.log('req.body', req.body);
-  client.query("Insert into products_category (category_name) VALUES ('" + req.body.name + "')",
+  client.query("Insert into products_category (category_name) VALUES ('" + req.body.category_name + "')",
     (req, data) => {
       console.log(req, data);
       res.redirect('/categories');
@@ -106,10 +106,11 @@ app.get('/categories', function (req, res) {
     });
 });
 
-/* app.get('/category/create', function (req, res) {
+app.get('/category/create', function (req, res) {
   res.render('categories-create');
 });
 
+/*
 app.get('/category/create', function (req, res) {
   res.render('categories-create', {
     layout: 'admin',
@@ -523,9 +524,6 @@ app.get('/products/update', function (req, res) {
       });
     });
   });
-});
-app.get('/category/create', function (req, res) {
-  res.render('categories-create');
 });
 
 // admin

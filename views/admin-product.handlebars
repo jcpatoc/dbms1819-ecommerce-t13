@@ -1,50 +1,177 @@
-<!DOCTYPE HTML>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-		<title>Team 13 - ADMINISTRATION PAGE</title>
-		<meta charset="utf-8">
- 		 <meta name="viewport" content="width=device-width, initial-scale=1">
- 		 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <meta charset="utf-8"/>
+        <title>DBMS ECOMMERCE</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
+        <meta content="" name="description"/>
+        <meta content="" name="author"/>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-		
-</head>
+<style>
+body {
+    font-family: "Lato", sans-serif;
+}
+
+/* Fixed sidenav, full height */
+.sidenav {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #fcb46c;
+    overflow-x: hidden;
+    padding-top: 20px;
+    border-style: : 1px solid black;
+}
+
+/* Style the sidenav links and the dropdown button */
+.sidenav a, .dropdown-btn {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 18px;
+    color: black;
+    display: block;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+}
+
+/* On mouse-over */
+.sidenav a:hover, .dropdown-btn:hover {
+    color: gray;
+}
+
+/* Main content */
+.main {
+    margin-left: 200px; /* Same as the width of the sidenav */
+    font-size: 17px; /* Increased text to enable scrolling */
+    padding: 0px 10px;
+}
+
+/* Add an active class to the active dropdown button */
+.active {
+    background-color: orange;
+    color: white;
+}
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+    display: none;
+    background-color: white;
+    padding-left: 8px;
+}
+
+/* Optional: Style the caret down icon */
+.fa-caret-down {
+    float: right;
+    padding-right: 8px;
+}
+
+/* Some media queries for responsiveness */
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+.header {
+  padding: 15px 16px;
+  background: lightgrey;
+  color: black;
+  margin-bottom: 10px;
+}
+
+.content {
+  padding: 16px;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.sticky + .content {
+  padding-top: 102px;
+}
+
+.logout {
+    float:right;
+    text-decoration:none;
+    position: relative;
+}
+.logout-button a button {
+   position: relative; 
+  background-color: gray;
+    color: white;
+    padding: 13px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    border-radius:5%;
+}
+</style>
+</head>       
 <body>
-	<div class="header">
-		<div class="logopic">
-			<a href="/"><img src="https://scontent.fmnl4-5.fna.fbcdn.net/v/t1.15752-9/40139954_230113000997347_3873425618926305280_n.png?_nc_cat=0&_nc_eui2=AeEPfLkDsNxUhX908FgUVs17TKadEfczn0I1dq1-QGsCv_hmjNO1p6hAIWs6tixwUPMLq07bNgEpH8RWbpLB6eSwp0zsVnNcG5SnnzP80gphFg&oh=339ee1c60c8414cb7a7ff2f1439a4571&oe=5C036EFF" alt="logo" width="8%" align="left" style="margin: -20px 10px 0 0"></a><h3 style="color: #f8f8ff; border-spacing: 60px">ADMIN PAGE</h3>
-		</div>
-		
-	</div>
-	<div class="body">
-		<div class="menubar" style="height: 300%;">
-		<br>	
-			<div class="menulist">
-				<ul style="list-style: none">
-					<a href="/admin/product"><li style="background: khaki;">Add/Update Product</li></a>
-					<a href="/admin/brand"><li>Brand List</li></a>
-					<a href="/admin/categories"><li>Category List</li></a>
-					<a href="/admin/orders"><li>Order List</li></a>
-					<a href="/admin/customers"><li>Customer List</li></a>
-				</ul>
-			</div>
-		</div>
-		<div class="admincontents">
-			<div class="tools">
-				<ul>
-					<li><input type="text" id="search" placeholder="Search"></li>
-					<li><a>Sort</a></li>
-						<ul>
-							<li><a href="/">Ascending</a></li>
-							<li><a href="/">Descending</a></li>
-						</ul>
-					<li><a>Filter</a></li>
-						<ul>
-							<li><a href="/">Brands</a></li>
-							<li><a href="/">Category</a></li>
-						</ul>
-				</ul>
-			</div>
-		</div>
-	</div>
+
+<div class="sidenav">
+         <a class="logo-area" href="/">
+            <img class="logo-area" src="https://scontent.fmnl4-5.fna.fbcdn.net/v/t1.15752-9/40139954_230113000997347_3873425618926305280_n.png?_nc_cat=0&_nc_eui2=AeEPfLkDsNxUhX908FgUVs17TKadEfczn0I1dq1-QGsCv_hmjNO1p6hAIWs6tixwUPMLq07bNgEpH8RWbpLB6eSwp0zsVnNcG5SnnzP80gphFg&oh=339ee1c60c8414cb7a7ff2f1439a4571&oe=5C036EFF" alt="T13 Logo" width="150px" height="65px">
+         </a>
+
+  <a href="/admin/products">Product</a>
+  <a href="/admin/customers">Customers</a>
+    <a href="/admin/brands">Brands</a>
+    <a href="/admin/orders">Orders</a>
+
+
+</div>
+
+<div class="main">
+  <div class="header" id="myHeader">
+  <h2>Team 13 Module | Admin</h2>
+</div>
+   <div class="logout-button">
+      <a href="logout.php"><button class="logout">Logout</button></a>
+</div>
+</div>
+
+
+<script>
+/* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+var dropdown = document.getElementsByClassName("dropdown-btn");
+var i;
+
+for (i = 0; i < dropdown.length; i++) {
+  dropdown[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var dropdownContent = this.nextElementSibling;
+    if (dropdownContent.style.display === "block") {
+      dropdownContent.style.display = "none";
+    } else {
+      dropdownContent.style.display = "block";
+    }
+  });
+}
+
+</script>
+
+<div class="main">
+
+
+<style type="text/css">
+  .ui-datepicker-calendar {
+    display: none;
+  }
+</style>
+
 
 </body>
+</html> 
